@@ -344,6 +344,9 @@ So the practical lesson is:
 
 This is especially important because fixing hierarchy later is annoying.
 
+A related practical lesson:
+- if a bad automation run creates folders at Drive root by mistake, clean them up right away so your root stays readable and you do not confuse them with the real system
+
 ---
 
 ## The Drive replacement lesson
@@ -351,13 +354,15 @@ This is especially important because fixing hierarchy later is annoying.
 After creating the corrected Drive structure, we replaced the old one by:
 - renaming the new correct root to the canonical name
 - trashing the old incorrect root
+- removing leftover stray root-level folders accidentally created during the broken first pass
 
 That is cleaner than trying to mentally track:
 - old wrong tree
 - new correct tree
+- stray folders at Drive root
 
 So the practical lesson is:
-- once the corrected tree exists and the mapping file is updated, replace the old structure quickly to avoid confusion
+- once the corrected tree exists and the mapping file is updated, replace the old structure quickly and clean up any root-level leftovers immediately
 
 ---
 
@@ -375,7 +380,8 @@ GitHub stores the full work repo, including:
 
 ### Google Drive
 Google Drive stores the accessibility/editability layer:
-- category folders
+- one clean root folder: `dinoclaw_work`
+- category folders inside that root
 - each category's `shared/`
 - each category's `final/`
 
