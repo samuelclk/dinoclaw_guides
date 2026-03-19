@@ -1,0 +1,15 @@
+# Editor / OS noise
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.swo
+
+# Temp / logs
+*.log
+*.tmp
+*.temp
+
+# Secrets
+.env
+.env.*
