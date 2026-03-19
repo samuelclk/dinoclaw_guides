@@ -1,5 +1,7 @@
 # Using GPT-4.1 mini for heartbeat checks
 
+This guide is optimized for users who are using the ChatGPT OAuth method for their OpenAI models.
+
 This guide shows a practical, low-drama way to run OpenClaw heartbeats on `openai/gpt-4.1-mini`.
 
 ## When to use GPT-4.1 mini
