@@ -1,24 +1,128 @@
 # Using GPT-4.1 mini for heartbeat checks
 
-This guide is optimized for users who are using the ChatGPT OAuth method for their OpenAI models.
+This guide is for people using the **ChatGPT OAuth** method for OpenAI models in OpenClaw.
 
-This guide shows a practical, low-drama way to run OpenClaw heartbeats on `openai/gpt-4.1-mini`.
+It shows the simplest practical setup for running heartbeat checks on:
 
-## When to use GPT-4.1 mini
+- `openai/gpt-4.1-mini`
 
-`openai/gpt-4.1-mini` is a good heartbeat model when you want:
+This guide is written for normal operators, not for debugging sessions.
 
-- lower cost than heavier flagship models
-- enough capability for short periodic check-ins
-- a model that can read a tiny checklist and either alert you or stay quiet
+## What this changes
 
-For heartbeat work, it is strong enough.
+You will:
 
-## Recommended setup
+1. edit your OpenClaw config
+2. set heartbeat to use `openai/gpt-4.1-mini`
+3. put heartbeat on its own session name
+4. make `HEARTBEAT.md` small and practical
+5. restart the gateway
+6. verify the config is live
 
-Use a separate heartbeat session so background checks do not share history with your normal direct messages.
+## Recommended final settings
 
-Recommended heartbeat config:
+Use these heartbeat settings:
+
+- `every`: `30m`
+- `model`: `openai/gpt-4.1-mini`
+- `session`: `heartbeat-main`
+- `target`: `telegram`
+- `prompt`: `Check: Any blockers, opportunities, or progress updates needed?`
+- `lightContext`: `true`
+
+Use this `HEARTBEAT.md` content:
+
+```md
+# HEARTBEAT.md
+
+- Check for blockers, opportunities, or progress updates worth sending.
+- Keep it short.
+- If nothing needs attention, reply exactly: HEARTBEAT_OK
+```
+
+## Which file to edit
+
+You need to edit:
+
+- OpenClaw config: `/home/huatyou/.openclaw/openclaw.json`
+- Heartbeat checklist: `/home/huatyou/.openclaw/workspace/HEARTBEAT.md`
+
+## Step 1 — edit `openclaw.json`
+
+Open a terminal and run:
+
+```bash
+cd /home/huatyou/.openclaw
+nano openclaw.json
+```
+
+Find the heartbeat block under your agent defaults and make it look like this:
+
+```json
+"heartbeat": {
+  "every": "30m",
+  "model": "openai/gpt-4.1-mini",
+  "session": "heartbeat-main",
+  "target": "telegram",
+  "prompt": "Check: Any blockers, opportunities, or progress updates needed?",
+  "lightContext": true
+}
+```
+
+### How to save in nano
+
+- Press `CTRL+O`
+- Press `ENTER`
+- Press `CTRL+X`
+
+## Step 2 — edit `HEARTBEAT.md`
+
+Run:
+
+```bash
+cd /home/huatyou/.openclaw/workspace
+nano HEARTBEAT.md
+```
+
+Replace the contents with:
+
+```md
+# HEARTBEAT.md
+
+- Check for blockers, opportunities, or progress updates worth sending.
+- Keep it short.
+- If nothing needs attention, reply exactly: HEARTBEAT_OK
+```
+
+### Save and exit
+
+- Press `CTRL+O`
+- Press `ENTER`
+- Press `CTRL+X`
+
+## Step 3 — restart OpenClaw
+
+Run:
+
+```bash
+systemctl --user restart openclaw-gateway
+systemctl --user status openclaw-gateway --no-pager
+```
+
+You want to see the service come back as:
+
+- `active (running)`
+
+## Step 4 — verify the heartbeat config is live
+
+Run:
+
+```bash
+cd /home/huatyou/.openclaw/workspace
+openclaw config get agents.defaults.heartbeat
+```
+
+You want to see:
 
 ```json
 {
@@ -31,110 +135,141 @@ Recommended heartbeat config:
 }
 ```
 
-## Why these settings
+## Optional: verify the heartbeat session later
 
-### `every: "30m"`
-Use a normal production interval.
+If you want to confirm that heartbeat is using its own session instead of your main DM session, run:
 
-- `1m` is useful for testing only
-- `30m` is a better default for real use
-- lower frequency reduces noise and token burn
-
-### `model: "openai/gpt-4.1-mini"`
-This keeps heartbeat cheap and lightweight while still being capable enough for a short checklist.
-
-### `session: "heartbeat-main"`
-This keeps heartbeat on its own session instead of mixing with your normal DM session.
-
-Benefits:
-
-- easier debugging
-- cleaner chat history
-- less accidental session-state confusion
-
-### `prompt`
-Keep the configured prompt short:
-
-```text
-Check: Any blockers, opportunities, or progress updates needed?
+```bash
+cd /home/huatyou/.openclaw/workspace
+openclaw status
 ```
 
-The prompt should be a nudge, not a full instruction block.
+Or inspect the session store directly:
 
-### `lightContext: true`
-This keeps heartbeat lean by avoiding unnecessary context.
-
-## What to put in `HEARTBEAT.md`
-
-Keep `HEARTBEAT.md` short and operational.
-
-Recommended contents:
-
-```md
-# HEARTBEAT.md
-
-- Check for blockers, opportunities, or progress updates worth sending.
-- Keep it short.
-- If nothing needs attention, reply exactly: HEARTBEAT_OK
+```bash
+python3 - <<'PY'
+import json
+with open('/home/huatyou/.openclaw/agents/main/sessions/sessions.json') as f:
+    data=json.load(f)
+for key in sorted(data):
+    if 'heartbeat-main' in key or key.endswith(':main'):
+        print(key)
+PY
 ```
 
-This is the part you tweak over time. The config prompt can stay stable.
+You want to see a separate heartbeat session key such as:
 
-## How it should behave
+- `agent:main:heartbeat-main`
 
-A healthy heartbeat run should:
+not just:
 
-1. run on the heartbeat session, not your main DM session
-2. use `gpt-4.1-mini`
-3. read `HEARTBEAT.md`
-4. either:
-   - send a short useful alert, or
-   - return `HEARTBEAT_OK`
+- `agent:main:main`
+
+## Why this setup is the sane default
+
+### Why `gpt-4.1-mini`
+
+It is a good fit for heartbeat because it is:
+
+- cheaper than heavier models
+- strong enough for short periodic checks
+- good enough to read a tiny checklist and either alert you or stay quiet
+
+### Why `heartbeat-main`
+
+Use a separate heartbeat session so background checks do not mix with your normal direct-message history.
+
+This makes:
+
+- debugging easier
+- session behavior clearer
+- heartbeat less likely to muddy normal chat state
+
+### Why `30m`
+
+Use `30m` for normal operation.
+
+Do **not** use `1m` long-term unless you are actively testing.
 
 ## What not to do
 
-### Don’t use debug-style session names in docs
-For new-user documentation, use:
+### Do not use debug session names in a normal setup
+
+Use:
 
 - `heartbeat-main`
 
-Avoid names like:
+Do not use:
 
 - `heartbeat-main-v2`
 - `heartbeat-ollama-v3`
 
-Those are testing labels, not good long-term names.
+Those are debugging names, not good long-term config values.
 
-### Don’t overload the prompt
-Put checklist behavior in `HEARTBEAT.md`, not in the config prompt.
+### Do not overload the heartbeat prompt
 
-### Don’t keep heartbeat on a 1-minute interval
-That is fine for testing, not for normal use.
+Keep the configured prompt short.
+
+Put the actual checklist in `HEARTBEAT.md`.
+
+### Do not assume every heartbeat problem is a model problem
+
+If one clean heartbeat already ran on `gpt-4.1-mini`, the model is probably fine.
+
+Sometimes the flaky part is:
+
+- scheduler behavior
+- session bookkeeping
+- transcript persistence
+
+not the model itself.
 
 ## Troubleshooting
 
-If heartbeat seems flaky, check these in order:
+### Heartbeat does not seem to run
 
-1. Is heartbeat still configured for `openai/gpt-4.1-mini`?
-2. Is it using a separate session such as `heartbeat-main`?
-3. Does the heartbeat transcript show actual runs on the expected model?
-4. Are you seeing scheduler/session-store weirdness rather than model failure?
+Check the live config:
 
-Important distinction:
+```bash
+cd /home/huatyou/.openclaw/workspace
+openclaw config get agents.defaults.heartbeat
+```
 
-- model problems mean the model itself is failing to do the task
-- scheduler/session problems mean the model may be fine, but the run lifecycle is flaky
+### Gateway did not come back cleanly
 
-If one clean run already completed on `gpt-4.1-mini`, that is strong evidence the model is not too weak for heartbeat.
+Run:
+
+```bash
+systemctl --user status openclaw-gateway --no-pager
+journalctl --user -u openclaw-gateway -n 100 --no-pager
+```
+
+### You want to test more aggressively
+
+Temporarily change:
+
+```json
+"every": "1m"
+```
+
+Restart the gateway, verify one or two clean heartbeat runs, then put it back to:
+
+```json
+"every": "30m"
+```
+
+Do not leave it on `1m` in production unless you intentionally want that token burn.
 
 ## Bottom line
 
-For most users, the sane setup is:
+If you want the practical default, do exactly this:
 
-- `openai/gpt-4.1-mini`
-- `30m`
-- separate session (`heartbeat-main`)
-- tiny `HEARTBEAT.md`
-- `lightContext: true`
+1. set heartbeat model to `openai/gpt-4.1-mini`
+2. set heartbeat session to `heartbeat-main`
+3. keep the prompt short
+4. keep `HEARTBEAT.md` tiny
+5. run heartbeat every `30m`
+6. restart the gateway
+7. verify the live config
 
-That gives you useful heartbeat checks without paying flagship-model costs for a simple background task.
+That is the simplest workable setup for GPT-4.1 mini heartbeat checks on ChatGPT OAuth.
