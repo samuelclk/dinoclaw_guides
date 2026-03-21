@@ -1,267 +1,228 @@
-# Practical Guide: Run Main + Work OpenClaw on One Machine (Two Different ChatGPT OAuth Accounts)
+# Practical Guide: Main + Work OpenClaw on One Machine (Two Linux Users, Two ChatGPT OAuth Accounts)
 
 ## Goal
-Run two OpenClaw instances on the same Linux user account, with clean isolation:
+Run two isolated OpenClaw instances on one host:
 
-- **main** instance (default profile) on port `18789`
-- **work** instance (`--profile work`) on port `18790`
-- separate Telegram bot identities (optional but recommended)
-- separate ChatGPT OAuth accounts for `openai-codex`
+- **main** instance under user `huatyou` on port `18789`
+- **work** instance under user `lidoclaw` on port `18790`
+- separate files, services, and OAuth accounts
 
-This guide is the streamlined method we validated.
+This is the operator-safe method we validated.
+
+---
+
+## Architecture (final state)
+
+- Main state: `/home/huatyou/.openclaw`
+- Work state: `/home/lidoclaw/.openclaw`
+- Main service: `openclaw-gateway.service` (user `huatyou`, port `18789`)
+- Work service: `openclaw-gateway.service` (user `lidoclaw`, port `18790`)
+- OAuth accounts differ by `accountId` in each user’s `auth-profiles.json`
 
 ---
 
 ## Prerequisites
 
 ### Required
-- OpenClaw installed at:
-  - `/home/huatyou/.npm-global/bin/openclaw`
-- systemd user services available (`systemctl --user ...`)
-- Two ChatGPT accounts you can OAuth-login separately
+- SSH/shell access as `huatyou`
+- `sudo` access
+- OpenClaw binary available (we used `/home/huatyou/.npm-global/bin/openclaw`)
+- Two ChatGPT accounts for OAuth
 
 ### Recommended
-- Two Telegram bots (one for main, one for work)
+- Separate Telegram bot token for work bot
 
 ---
 
-## 10-minute quickstart
-
-Use this if you already know what you’re doing and just need the working command flow.
+## 10-minute quickstart (experienced operators)
 
 ```bash
-# 1) shell aliases (put in ~/.bashrc, then source ~/.bashrc)
-alias openclaw='/home/huatyou/.npm-global/bin/openclaw'
-alias openclaww='OPENCLAW_GATEWAY_TOKEN_WORK=$(grep "^OPENCLAW_GATEWAY_TOKEN_WORK=" ~/.openclaw-work/.env | cut -d= -f2-) env -u OPENCLAW_GATEWAY_PORT -u OPENCLAW_SYSTEMD_UNIT -u OPENCLAW_CONFIG_PATH -u OPENCLAW_STATE_DIR /home/huatyou/.npm-global/bin/openclaw --profile work'
+# 0) backup existing work profile state
+TS=$(date +%F-%H%M%S)
+BK="/home/huatyou/migration-backups/openclaw-work-$TS"
+mkdir -p "$BK"
+cp -a /home/huatyou/.openclaw-work "$BK"/ 2>/dev/null || true
 
-# 2) main/work token refs
-openclaw config set gateway.auth.mode token
-openclaw config set gateway.auth.token '{"source":"env","provider":"default","id":"OPENCLAW_GATEWAY_TOKEN_PLAY"}'
-openclaww config set gateway.auth.mode token
-openclaww config set gateway.auth.token '{"source":"env","provider":"default","id":"OPENCLAW_GATEWAY_TOKEN_WORK"}'
+# 1) create/prepare work user
+sudo adduser --disabled-password --gecos "" lidoclaw || true
+sudo setfacl -m u:lidoclaw:x /home/huatyou
 
-# 3) work isolation settings
-openclaww config set gateway.port 18790
-openclaww config set agents.defaults.workspace /home/huatyou/.openclaw-work/workspace
-openclaww config set agents.defaults.model.primary openai-codex/gpt-5.4
-openclaww config set agents.defaults.model.fallbacks '["openai/gpt-5.3-codex"]'
+# 2) copy work state into lidoclaw home
+sudo -u lidoclaw -H mkdir -p /home/lidoclaw/.openclaw
+sudo rsync -a /home/huatyou/.openclaw-work/ /home/lidoclaw/.openclaw/
+sudo chown -R lidoclaw:lidoclaw /home/lidoclaw/.openclaw
 
-# 4) OAuth each profile with different ChatGPT account
-openclaw models auth login --provider openai-codex
-openclaww models auth login --provider openai-codex
+# 3) login as lidoclaw and set core config
+sudo -iu lidoclaw
+/home/huatyou/.npm-global/bin/openclaw config set agents.defaults.workspace /home/lidoclaw/.openclaw/workspace
+/home/huatyou/.npm-global/bin/openclaw config set gateway.port 18790
+/home/huatyou/.npm-global/bin/openclaw config set agents.defaults.model.primary openai-codex/gpt-5.4
+/home/huatyou/.npm-global/bin/openclaw config set agents.defaults.model.fallbacks '[]'
 
-# 5) restart services
-openclaw gateway restart
-openclaww gateway restart
+# 4) ensure .env exists and load token var expected by CLI
+[ -f ~/.openclaw/.env ] || touch ~/.openclaw/.env
+set -a; source ~/.openclaw/.env; set +a
+export OPENCLAW_GATEWAY_TOKEN="${OPENCLAW_GATEWAY_TOKEN_WORK:-$OPENCLAW_GATEWAY_TOKEN}"
 
-# 6) verify
-openclaw gateway status
-openclaww gateway status
-jq -r '.profiles["openai-codex:default"].accountId // "missing"' ~/.openclaw/agents/main/agent/auth-profiles.json
-jq -r '.profiles["openai-codex:default"].accountId // "missing"' ~/.openclaw-work/agents/main/agent/auth-profiles.json
+# 5) install/reinstall service from lidoclaw session
+/home/huatyou/.npm-global/bin/openclaw gateway install --force
+systemctl --user daemon-reload
+systemctl --user enable openclaw-gateway.service
+systemctl --user restart openclaw-gateway.service
+
+# 6) OAuth (work account)
+/home/huatyou/.npm-global/bin/openclaw models auth login --provider openai-codex
+
+# 7) verify
+/home/huatyou/.npm-global/bin/openclaw gateway status
+/home/huatyou/.npm-global/bin/openclaw channels status
 ```
 
 ---
 
-## Final layout (what you want)
+## Step-by-step migration (careful path)
 
-- Main state dir: `~/.openclaw`
-- Work state dir: `~/.openclaw-work`
-- Main service: `openclaw-gateway.service` (port `18789`)
-- Work service: `openclaw-gateway-work.service` (port `18790`)
-
----
-
-## Step 1 — Set shell aliases
-
-Edit `~/.bashrc` and make sure you have:
+## Step 1 — Snapshot before changes (required)
 
 ```bash
-alias openclaw='/home/huatyou/.npm-global/bin/openclaw'
-alias openclaww='OPENCLAW_GATEWAY_TOKEN_WORK=$(grep "^OPENCLAW_GATEWAY_TOKEN_WORK=" ~/.openclaw-work/.env | cut -d= -f2-) env -u OPENCLAW_GATEWAY_PORT -u OPENCLAW_SYSTEMD_UNIT -u OPENCLAW_CONFIG_PATH -u OPENCLAW_STATE_DIR /home/huatyou/.npm-global/bin/openclaw --profile work'
+TS=$(date +%F-%H%M%S)
+BK="/home/huatyou/migration-backups/openclaw-work-$TS"
+mkdir -p "$BK"
+cp -a /home/huatyou/.openclaw-work "$BK"/ 2>/dev/null || true
+cp -a /home/huatyou/.config/systemd/user/openclaw-gateway-work.service "$BK"/ 2>/dev/null || true
+cp -a /home/huatyou/.bashrc "$BK"/bashrc.before
 ```
 
-Apply changes:
+## Step 2 — Create `lidoclaw` user
 
 ```bash
-source ~/.bashrc
+sudo adduser --disabled-password --gecos "" lidoclaw
 ```
 
-**Why this matters:** `openclaww` must avoid inheriting main gateway env vars.
-
----
-
-## Step 2 — Configure main `.env`
-
-Edit:
+If you already created `openclawwork` and want rename:
 
 ```bash
-nano ~/.openclaw/.env
+sudo usermod -l lidoclaw openclawwork
+sudo groupmod -n lidoclaw openclawwork
+sudo usermod -d /home/lidoclaw -m lidoclaw
 ```
 
-Ensure it has a main token variable:
+## Step 3 — Allow traversal to shared binary path
+
+```bash
+sudo setfacl -m u:lidoclaw:x /home/huatyou
+```
+
+## Step 4 — Copy work state into new user home
+
+```bash
+sudo -u lidoclaw -H mkdir -p /home/lidoclaw/.openclaw
+sudo rsync -a /home/huatyou/.openclaw-work/ /home/lidoclaw/.openclaw/
+sudo chown -R lidoclaw:lidoclaw /home/lidoclaw/.openclaw
+```
+
+## Step 5 — Login as `lidoclaw` and fix config
+
+```bash
+sudo -iu lidoclaw
+/home/huatyou/.npm-global/bin/openclaw config set agents.defaults.workspace /home/lidoclaw/.openclaw/workspace
+/home/huatyou/.npm-global/bin/openclaw config set gateway.port 18790
+/home/huatyou/.npm-global/bin/openclaw config set agents.defaults.model.primary openai-codex/gpt-5.4
+/home/huatyou/.npm-global/bin/openclaw config set agents.defaults.model.fallbacks '[]'
+```
+
+## Step 6 — Ensure work `.env` is present
+
+```bash
+[ -f ~/.openclaw/.env ] || touch ~/.openclaw/.env
+```
+
+Make sure it contains at least:
 
 ```text
-OPENCLAW_GATEWAY_TOKEN_PLAY=<main_gateway_token>
-TELEGRAM_BOT_TOKEN=<main_bot_token>
-```
-
-Save and exit:
-- `CTRL+O`, `ENTER`, `CTRL+X`
-
----
-
-## Step 3 — Configure work `.env`
-
-Edit:
-
-```bash
-nano ~/.openclaw-work/.env
-```
-
-Ensure it has a work token variable:
-
-```text
-OPENCLAW_GATEWAY_TOKEN_WORK=<work_gateway_token>
 TELEGRAM_BOT_TOKEN=<work_bot_token>
+OPENCLAW_GATEWAY_TOKEN_WORK=<work_gateway_token>
 ```
 
-Save and exit:
-- `CTRL+O`, `ENTER`, `CTRL+X`
+## Step 7 — Install service from lidoclaw session
 
----
-
-## Step 4 — Wire gateway auth tokens via env SecretRef
-
-### Main
 ```bash
-openclaw config set gateway.auth.mode token
-openclaw config set gateway.auth.token '{"source":"env","provider":"default","id":"OPENCLAW_GATEWAY_TOKEN_PLAY"}'
+set -a
+source ~/.openclaw/.env
+set +a
+export OPENCLAW_GATEWAY_TOKEN="${OPENCLAW_GATEWAY_TOKEN_WORK:-$OPENCLAW_GATEWAY_TOKEN}"
+
+/home/huatyou/.npm-global/bin/openclaw gateway install --force
+systemctl --user daemon-reload
+systemctl --user enable openclaw-gateway.service
+systemctl --user restart openclaw-gateway.service
 ```
 
-### Work
+## Step 8 — OAuth for work account
+
 ```bash
-openclaww config set gateway.auth.mode token
-openclaww config set gateway.auth.token '{"source":"env","provider":"default","id":"OPENCLAW_GATEWAY_TOKEN_WORK"}'
+/home/huatyou/.npm-global/bin/openclaw models auth login --provider openai-codex
 ```
 
----
+Sign in with the **work** ChatGPT account.
 
-## Step 5 — Set work port + workspace
+## Step 9 — Verify service, channels, and account split
 
+### As `lidoclaw`
 ```bash
-openclaww config set gateway.port 18790
-openclaww config set agents.defaults.workspace /home/huatyou/.openclaw-work/workspace
+/home/huatyou/.npm-global/bin/openclaw gateway status
+/home/huatyou/.npm-global/bin/openclaw channels status
+ss -ltnp | grep 18790
 ```
 
-(Leave main at default `18789` unless you intentionally changed it.)
-
----
-
-## Step 6 — Pin work model to OpenAI Codex (avoid Anthropic auth errors)
-
+### Check account split
 ```bash
-openclaww config set agents.defaults.model.primary openai-codex/gpt-5.4
-openclaww config set agents.defaults.model.fallbacks '["openai/gpt-5.3-codex"]'
-```
-
----
-
-## Step 7 — OAuth login each profile with different ChatGPT account
-
-### Main login
-```bash
-openclaw models auth login --provider openai-codex
-```
-
-### Work login
-```bash
-openclaww models auth login --provider openai-codex
-```
-
-Important: in the browser flow, sign in to **different ChatGPT accounts**.
-
----
-
-## Step 8 — Install/restart services
-
-```bash
-openclaw gateway install
-openclaw gateway restart
-
-openclaww gateway install
-systemctl --user restart openclaw-gateway-work.service
-```
-
----
-
-## Verify
-
-### 1) Gateway health
-```bash
-openclaw gateway status
-openclaww gateway status
-```
-
-Expected:
-- main: `RPC probe: ok`, port `18789`
-- work: `RPC probe: ok`, port `18790`
-
-### 2) Service mapping
-```bash
-systemctl --user --no-pager --type=service | grep openclaw-gateway
-```
-
-Expected:
-- `openclaw-gateway.service` active
-- `openclaw-gateway-work.service` active
-
-### 3) OAuth accounts are different
-```bash
-jq -r '.profiles["openai-codex:default"].accountId // "missing"' ~/.openclaw/agents/main/agent/auth-profiles.json
-jq -r '.profiles["openai-codex:default"].accountId // "missing"' ~/.openclaw-work/agents/main/agent/auth-profiles.json
+jq -r '.profiles["openai-codex:default"].accountId // "missing"' /home/huatyou/.openclaw/agents/main/agent/auth-profiles.json
+jq -r '.profiles["openai-codex:default"].accountId // "missing"' /home/lidoclaw/.openclaw/agents/main/agent/auth-profiles.json
 ```
 
 Expected: two different `accountId` values.
 
 ---
 
-## Troubleshooting
+## Final permissions hardening (do this last)
 
-### Symptom: `unauthorized: gateway token mismatch`
-Cause: token/env collision between main and work command context.
+After everything is working, lock it down:
 
-Fix:
-1. Confirm token refs:
-   ```bash
-   openclaw config get gateway.auth.token
-   openclaww config get gateway.auth.token
-   ```
-2. Confirm aliases loaded:
-   ```bash
-   source ~/.bashrc
-   alias openclaww
-   ```
-3. Restart both:
-   ```bash
-   openclaw gateway restart
-   openclaww gateway restart
-   ```
+```bash
+# ownership
+sudo chown -R lidoclaw:lidoclaw /home/lidoclaw
+
+# directory permissions
+sudo chmod 700 /home/lidoclaw
+sudo chmod 700 /home/lidoclaw/.openclaw
+sudo chmod 700 /home/lidoclaw/.ssh 2>/dev/null || true
+
+# sensitive files
+sudo chmod 600 /home/lidoclaw/.openclaw/.env 2>/dev/null || true
+sudo find /home/lidoclaw/.openclaw -type f -name '*.json' -exec chmod 600 {} \;
+
+# remove old ACLs you no longer need
+sudo setfacl -x u:openclawwork /home/huatyou 2>/dev/null || true
+```
+
+Optional stricter boundary: remove unnecessary sudo rights from users that should not cross-read each other.
 
 ---
 
-## Important notes
+## Common pitfalls we hit
 
-- Do **not** reuse the same gateway token variable name for both instances when commands share shell environment.
-- Keep secrets in `.env`; do not commit them to git.
-- If status output behaves unexpectedly, run from a fresh shell (`exec bash`) and retry.
+- Running `openclaw gateway install` for another user from wrong context (`sudo -u ...`) without a proper user bus.
+- Leaving stale workspace paths (`/home/huatyou/.openclaw-work`) in migrated config/state.
+- Keeping non-Codex fallback (`openai/gpt-5.3-codex`) without OpenAI API key.
+- Token/env mismatch between runtime and CLI when using custom token var names.
 
 ---
 
 ## Bottom line
 
-This method gives stable side-by-side operation on one machine with:
-- one main OpenClaw instance,
-- one work OpenClaw instance,
-- separate gateway/token context,
-- separate ChatGPT OAuth account identities.
+For this use case, dual Linux users is stable and practical:
+
+- cleaner isolation than dual profiles under one user,
+- easier mental model once service ownership is clean,
+- straightforward security hardening at the end.
