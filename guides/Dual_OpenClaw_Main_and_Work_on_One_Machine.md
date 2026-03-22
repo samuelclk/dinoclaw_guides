@@ -210,12 +210,67 @@ Optional stricter boundary: remove unnecessary sudo rights from users that shoul
 
 ---
 
+## Shared staging between users (optional, recommended for handoff)
+
+Keep each agent’s workspace isolated in its own home directory, and add one neutral shared handoff path.
+
+### Create shared staging
+
+```bash
+# one-time setup
+sudo groupadd openclaw-shared 2>/dev/null || true
+sudo usermod -aG openclaw-shared huatyou
+sudo usermod -aG openclaw-shared lidoclaw
+
+sudo mkdir -p /srv/openclaw-shared/staging
+sudo chown -R root:openclaw-shared /srv/openclaw-shared
+sudo chmod -R 2770 /srv/openclaw-shared
+
+# ACL for immediate + inherited group write
+sudo setfacl -m g:openclaw-shared:rwx /srv/openclaw-shared/staging
+sudo setfacl -d -m g:openclaw-shared:rwx /srv/openclaw-shared/staging
+```
+
+### Create explicit handoff folder
+
+```bash
+sudo mkdir -p /srv/openclaw-shared/staging/shared
+sudo chown root:openclaw-shared /srv/openclaw-shared/staging/shared
+sudo chmod 2770 /srv/openclaw-shared/staging/shared
+sudo setfacl -m g:openclaw-shared:rwx /srv/openclaw-shared/staging/shared
+sudo setfacl -d -m g:openclaw-shared:rwx /srv/openclaw-shared/staging/shared
+```
+
+### Smoke test
+
+```bash
+# as huatyou
+echo "from-main $(date -Is)" > /srv/openclaw-shared/staging/shared/main-note.txt
+
+# as lidoclaw
+cat /srv/openclaw-shared/staging/shared/main-note.txt
+echo "from-work $(date -Is)" >> /srv/openclaw-shared/staging/shared/main-note.txt
+cat /srv/openclaw-shared/staging/shared/main-note.txt
+
+# copy into each isolated workspace (manual merge/handoff)
+cp /srv/openclaw-shared/staging/shared/main-note.txt /home/huatyou/.openclaw/workspace/from-shared.txt
+cp /srv/openclaw-shared/staging/shared/main-note.txt /home/lidoclaw/.openclaw/workspace/from-shared.txt
+```
+
+Observed-good state from validation:
+- both users can create files under `/srv/openclaw-shared/staging`
+- file group is `openclaw-shared`
+- `lidoclaw` hardening remains intact (`700` dirs, `600` secrets/json)
+
+---
+
 ## Common pitfalls we hit
 
 - Running `openclaw gateway install` for another user from wrong context (`sudo -u ...`) without a proper user bus.
 - Leaving stale workspace paths (`/home/huatyou/.openclaw-work`) in migrated config/state.
 - Keeping non-Codex fallback (`openai/gpt-5.3-codex`) without OpenAI API key.
 - Token/env mismatch between runtime and CLI when using custom token var names.
+- Forgetting to create `/srv/openclaw-shared/staging/shared` before handoff test (results in `No such file or directory`).
 
 ---
 
