@@ -52,28 +52,30 @@ sudo -u lidoclaw -H mkdir -p /home/lidoclaw/.openclaw
 sudo rsync -a /home/huatyou/.openclaw-work/ /home/lidoclaw/.openclaw/
 sudo chown -R lidoclaw:lidoclaw /home/lidoclaw/.openclaw
 
-# 3) login as lidoclaw and set core config
+# 3) switch to lidoclaw for the rest of this block
 sudo -iu lidoclaw
+
+# 4) set core config (as lidoclaw)
 /home/huatyou/.npm-global/bin/openclaw config set agents.defaults.workspace /home/lidoclaw/.openclaw/workspace
 /home/huatyou/.npm-global/bin/openclaw config set gateway.port 18790
 /home/huatyou/.npm-global/bin/openclaw config set agents.defaults.model.primary openai-codex/gpt-5.4
 /home/huatyou/.npm-global/bin/openclaw config set agents.defaults.model.fallbacks '[]'
 
-# 4) ensure .env exists and load token var expected by CLI
+# 5) ensure .env exists and load token var expected by CLI (as lidoclaw)
 [ -f ~/.openclaw/.env ] || touch ~/.openclaw/.env
 set -a; source ~/.openclaw/.env; set +a
 export OPENCLAW_GATEWAY_TOKEN="${OPENCLAW_GATEWAY_TOKEN_WORK:-$OPENCLAW_GATEWAY_TOKEN}"
 
-# 5) install/reinstall service from lidoclaw session
+# 6) install/reinstall service from lidoclaw session
 /home/huatyou/.npm-global/bin/openclaw gateway install --force
 systemctl --user daemon-reload
 systemctl --user enable openclaw-gateway.service
 systemctl --user restart openclaw-gateway.service
 
-# 6) OAuth (work account)
+# 7) OAuth (work account)
 /home/huatyou/.npm-global/bin/openclaw models auth login --provider openai-codex
 
-# 7) verify
+# 8) verify
 /home/huatyou/.npm-global/bin/openclaw gateway status
 /home/huatyou/.npm-global/bin/openclaw channels status
 ```
@@ -201,6 +203,7 @@ sudo chmod 700 /home/lidoclaw/.ssh 2>/dev/null || true
 # sensitive files
 sudo chmod 600 /home/lidoclaw/.openclaw/.env 2>/dev/null || true
 sudo find /home/lidoclaw/.openclaw -type f -name '*.json' -exec chmod 600 {} \;
+# if any tooling later fails due to strict JSON permissions, relax only non-sensitive JSON files to 640.
 
 # remove old ACLs you no longer need
 sudo setfacl -x u:openclawwork /home/huatyou 2>/dev/null || true
@@ -257,10 +260,34 @@ cp /srv/openclaw-shared/staging/shared/main-note.txt /home/huatyou/.openclaw/wor
 cp /srv/openclaw-shared/staging/shared/main-note.txt /home/lidoclaw/.openclaw/workspace/from-shared.txt
 ```
 
+### Critical runtime refresh check (important)
+
+After adding users to `openclaw-shared`, **new login alone may not refresh already-running OpenClaw agent processes**.
+
+Use this exact test from shell first:
+
+```bash
+id && ls -ld /srv/openclaw-shared /srv/openclaw-shared/staging /srv/openclaw-shared/staging/shared && touch /srv/openclaw-shared/staging/shared/.group-access-test && ls -l /srv/openclaw-shared/staging/shared/.group-access-test && rm /srv/openclaw-shared/staging/shared/.group-access-test
+```
+
+Expected:
+- `id` shows `openclaw-shared` in groups
+- touch/list/rm succeeds with no permission errors
+
+If shell works but OpenClaw still gets `Permission denied`:
+1. First try restarting the user gateway service:
+   ```bash
+   systemctl --user restart openclaw-gateway.service
+   ```
+2. Re-test from the agent by checking `id` and a real copy/write into `/srv/openclaw-shared/staging/shared`.
+3. If the agent-side `id` still does not include `openclaw-shared`, restart the parent OpenClaw process/session manager (not just user login).
+4. Only proceed once the agent-side `id` includes `openclaw-shared`.
+
 Observed-good state from validation:
 - both users can create files under `/srv/openclaw-shared/staging`
 - file group is `openclaw-shared`
 - `lidoclaw` hardening remains intact (`700` dirs, `600` secrets/json)
+- agent-side access started working only after process context reflected the new group membership
 
 ---
 
@@ -271,6 +298,7 @@ Observed-good state from validation:
 - Keeping non-Codex fallback (`openai/gpt-5.3-codex`) without OpenAI API key.
 - Token/env mismatch between runtime and CLI when using custom token var names.
 - Forgetting to create `/srv/openclaw-shared/staging/shared` before handoff test (results in `No such file or directory`).
+- Assuming user re-login is enough for long-running agent processes to pick up new group membership; verify agent-side `id` before concluding permissions are fixed.
 
 ---
 
