@@ -1,0 +1,7 @@
+﻿Call with Zach Young (CEO, Atlantis Wallet):
+1. Topic: Introduced Lido from the top and presented Lido Earn/DI integration model including ETH, USDC, and XSGD Earn options for their newly launched non-custodial wallet
+2. Reaffirmed interest in integrating with Lido when they are ready to start developing Earn features (Phase 3)
+3. Currently scoping for Phase 2 development, which will be a short phase with 3-4 weeks of development time and include optimisations from the basic features of Phase 1. Phase 3 will come after (Expected timelines = Start of Mar'26)
+4. Wants to include a "daily earnings" notification feature for their Earn product. DI team to note as an integration wishlist.
+5. Next Steps:
+   1. Revisit discussion towards end of Feb'26.

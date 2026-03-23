@@ -1,0 +1,12 @@
+﻿Call with Jeffrey and Ellis (POC for Hashkey Custody):
+1. Hashkey Custody, Exchange, and OTC falls under the same entity and team as the current HK VATP license does not distinguish among these 3 activities
+2. Presented value proposition on native stETH integration and stVault interaction via Walletconnect
+   1. Team is keen to support but needs to check with tech team on integration requirements and timelines
+   2. Walletconnect support is also TBC
+3. Hashkey Exchange and OTC do not support margin trading yet. They are expecting HK SFC to approve this in May'26
+4. Hashkey Custody does not have off-exchange settlement features yet.
+5. TBC on collaterised lending features
+6. Next steps:
+   1. Share pitch deck for Quantum Solutions with them
+   2. Get confirmation on integration requirements and timelines
+   3. Get confirmation on custody features

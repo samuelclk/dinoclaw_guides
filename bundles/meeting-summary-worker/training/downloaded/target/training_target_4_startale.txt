@@ -1,0 +1,23 @@
+﻿Meeting with Startale Group & Lido
+Participants:
+* Mingshi Song, DeFi Lead at Startale Group
+* NK Yoon, Startale Group (Korea)
+* Samuel C., Lido Institutional Relations
+________________
+
+
+Notes
+* Startale Focus: Building Soneium (L2 with Sony) and Stream (L1 with SBI).
+* JPY Stablecoin: Partnering with SBI to launch the first bank-issued JPY stablecoin (expected June 2026). It will bypass the ¥1M transfer cap of existing tokens like JPYC.
+* Morpho Integration: High interest in using stETH as collateral to borrow the new JPY stablecoin via Morpho "Save Vaults." This enables carry trades and liquidity for Japanese institutions.
+* Lido Earn: Discussed integrating Lido Earn’s 5-6% yield vaults into Astar or SBI wallets as a revenue driver via fee sharing.
+* Institutional Context: Most Japanese enterprises don't hold ETH yet, but asset managers are pushing regulators for permission. Current borrowing rates in Japan are ~9-11% for USD-based loans.
+* Structured Products: Explored "basis trade" models (holding spot in stETH) to enhance yields for traditional asset managers via Actively Managed Certificates (AMC).
+________________
+
+
+Next Steps
+* Institutional Outreach: Samuel to sound out interest on the JPY stablecoin borrowing option to Japanese Digital Asset Trading (DAT) companies.
+* Collateral Specs: Mingshi/NK to send detailed info on the SBI JPY stablecoin announcement and technicals.
+* Integration Deck: Samuel to provide a slide deck outlining specific integration paths for Lido Earn and stETH vaults.
+* Ecosystem Sync: Samuel to contact the SFA regarding the Japan Fintech Week roundtable and explore synergies with the Coinbase stablecoin team.

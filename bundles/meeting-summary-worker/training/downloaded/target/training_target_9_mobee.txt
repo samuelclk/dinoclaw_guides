@@ -1,0 +1,15 @@
+﻿Call with Hery Hermawan (Head of Product Development):
+1. Topic: Lido Earn/DI integration on Mobee
+2. Hery's responsibilities cover listing, market making, and partnerships, including those with validators and DeFi protocols
+3. Mobee already utilizes Lido Finance to deploy their Ethereum users' assets for their "simple earn" product.
+   1. They consolidate user Ethereum and deploy it to the backend, splitting the deployment 50/50 between Lido and Etherfi, noting Ether offers a slightly higher Annual Percentage Rate (APR) but has an unlock period
+   2. Hery estimated that the total amount currently staked in their "simple earn" (which is the same as "flexi earn") product is about 5,000 ETH, though the total circulation of ETH held by users is much larger.
+   3. Uses Fireblocks for MPC self-custody
+4. On Lido Earn/DI integration
+   1. Did not know about Lido Earn before this but keen to explore integrations on this front
+   2. Mobee cannot display external service providers on their platform due to regulatory concerns and prefer a model where they deploy the users' funds into Lido Earn
+   3. Requested for deck and details on commercials. Samuel C agreed to connect Hery Hermawan with the DI interface team as next steps
+5. Next steps:
+   1. Share DeFi Interface deck
+   2. Share Lido Earn tab and how to inspect underlying strategies
+   3. Connect to @Ivan M for DI conversations

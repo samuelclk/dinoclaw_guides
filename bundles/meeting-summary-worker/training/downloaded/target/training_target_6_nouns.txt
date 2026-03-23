@@ -1,0 +1,24 @@
+﻿Meeting with Inter Noun (Nouns DAO & Nudge)
+Participants:
+* Inter Noun, Nouns DAO Lead & Nudge Contributor
+* Samuel C., Lido Institutional Relations
+________________
+
+
+Notes
+* Nudge Integration: Deal closed with Nudge (quest/reallocation platform). Can explore Lido Earn integration from March 1st.
+* Incentives & Fees: LDO float is low (90%+ distributed), so Lido cannot provide inorganic rewards. Instead, Samuel will push for a fee-sharing tier based on TVL brought in by Nudge.
+* Nouns DAO Treasury:
+   * Hard commitment to deploy 1,000 ETH via Octant (partially into Concrete).
+   * Additional 3,000 ETH available for allocation in Q2; open to an stVault strategy.
+   * Anticipating treasury growth to Top 10 globally this year due to pre-signed deals.
+   * Asked about Concrete.xyz. Shared opinion on underlying strategies
+* Node Operations: Suggested Nouns DAO use Northstake’s wrapper for stVaults to leverage their ~$60M TVL potential for better fee negotiations.
+________________
+
+
+Next Steps
+* Nudge Onboarding: Inter Noun to send Nudge product docs; Samuel to negotiate the fee-sharing tier with the Lido Earn team.
+* Intro to Northstake: Samuel to connect Inter Noun to Northstake to demo their stVault wrapper tool.
+* Technical Sync: Create a group chat between Nudge and Lido Earn teams in early March to move forward with the integration.
+* SD Vault Strategy: Inter Noun to explore composing Concrete strategies directly onto Nouns' stVaults.

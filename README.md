@@ -23,5 +23,6 @@ Do **not** use this repo as the source of truth for live runtime config.
 ## Current structure
 
 - `guides/` — practical walkthroughs and reference docs
+- `bundles/` — grouped doc sets that belong together (guides + runbooks + training materials)
 - `postmortems/` — retrospective writeups
 - `experiments/` — rough notes and comparisons
