@@ -5,8 +5,8 @@ Process shared Google Docs that represent meeting transcripts, generate a concis
 
 ## Current Trigger Rule
 Only treat a shared Google Doc as a meeting transcript candidate if:
-- it is accessible to `<assistant@example.com>`
-- its title includes `Notes by Gemini`
+- it is accessible to `<shared-service-account@example.com>`
+- its title includes `AI-generated meeting notes`
 
 ## Source Selection Rule
 When a matching Google Doc has multiple tabs, use:
@@ -33,7 +33,7 @@ Expected user command pattern:
 
 ## Candidate Selection Logic
 On manual trigger:
-1. Search accessible Google Docs for titles containing `Notes by Gemini`
+1. Search accessible Google Docs for titles containing `AI-generated meeting notes`
 2. Filter to Google Docs only
 3. Sort by recency
 4. Exclude any source doc IDs already present in the dedupe log
@@ -41,13 +41,13 @@ On manual trigger:
 
 ## Dedupe Rule
 Track processed source document IDs in:
-- `workspace/outputs/meeting-transcript-log.json`
+- `workspace/outputs/meeting-summary-log.json`
 
 Each log entry should include:
 - `sourceDocId`
 - `sourceTitle`
-- `copiedTranscriptDocId`
-- `copiedTranscriptTitle`
+- `copiedSourceDocId`
+- `copiedSourceTitle`
 - `summaryFile`
 - `summaryDriveFileId`
 - `processedAt`
@@ -123,7 +123,7 @@ The chat surface topic ID for `Meeting Notes` still needs to be recorded if not 
 
 ## End-to-End Procedure
 1. the operator sends manual trigger in chat
-2. the assistant finds newest unprocessed Google Doc whose title contains `Notes by Gemini`
+2. the assistant finds newest unprocessed Google Doc whose title contains `AI-generated meeting notes`
 3. the assistant copies it into `<org>/Meeting Transcripts`
 4. the assistant reads the copied doc’s `Transcript` tab
 5. the assistant generates a summary with:
@@ -135,4 +135,4 @@ The chat surface topic ID for `Meeting Notes` still needs to be recorded if not 
 7. the assistant commits and pushes to GitHub
 8. the assistant uploads the summary file to `<org>/Meeting Notes`
 9. the assistant sends chat surface notification in `Meeting Notes` topic
-10. the assistant appends an entry to `workspace/outputs/meeting-transcript-log.json`
+10. the assistant appends an entry to `workspace/outputs/meeting-summary-log.json`

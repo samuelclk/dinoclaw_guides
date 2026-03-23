@@ -101,7 +101,7 @@ Do **not** include unless genuinely decision-relevant:
 - overlong product education paragraphs
 - restating every exploratory idea discussed
 - speculative detail that did not survive into a clear takeaway
-- Gemini-style over-explanation of mechanics if one line will do
+- AI-style over-explanation of mechanics if one line will do
 
 ## How to handle key discussion points
 
@@ -144,7 +144,7 @@ Weaker / avoid unless unavoidable:
 
 ## Compression rules
 
-When reducing transcript or Gemini notes into target style:
+When reducing transcript or AI-generated notes into target style:
 - collapse repeated points into one line
 - merge related subpoints under a single commercial angle
 - keep numbers only when they help prioritization or constraint analysis
@@ -178,9 +178,9 @@ The summary should:
 - avoid transcript order
 - preserve only strategic and operational memory
 
-### When source is a Gemini summary
+### When source is a AI summary
 The task is mostly a **rewrite-and-prune** pass:
-- remove Gemini’s narrative structure
+- remove AI’s narrative structure
 - remove detail bloat
 - strip generic explanations
 - keep only the points the operator would likely refer back to later
@@ -212,6 +212,6 @@ The task is mostly a **rewrite-and-prune** pass:
 ## Confidence notes
 
 - Strong confidence on **rewrite style** from the available examples.
-- After the explicit Gemini->target pass on early examples, the rewrite signal is stronger because those first 3 examples now contribute to rewrite learning as well, not just transcript extraction contrast.
+- After the explicit AI->target pass on early examples, the rewrite signal is stronger because those first 3 examples now contribute to rewrite learning as well, not just transcript extraction contrast.
 - Moderate confidence on **raw transcript extraction style** because only examples 1–3 include raw transcripts.
-- Likely strongest early performance when rewriting Gemini summaries; more raw transcript examples would improve extraction judgment.
+- Likely strongest early performance when rewriting AI summaries; more raw transcript examples would improve extraction judgment.

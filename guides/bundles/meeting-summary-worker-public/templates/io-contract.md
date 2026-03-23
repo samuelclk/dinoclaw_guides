@@ -8,7 +8,7 @@
    - source: shared storage `Source` folder or local mirrored file
    - examples: exported transcript text, meeting transcript doc text
 
-2. **Gemini summary / notes**
+2. **AI summary / notes**
    - source: shared storage `Source` folder or local mirrored file
    - used either as production input or blind-test source
 

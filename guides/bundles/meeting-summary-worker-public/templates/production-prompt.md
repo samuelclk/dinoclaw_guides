@@ -1,6 +1,6 @@
 # Production Prompt: House-Style Meeting Summary Rewrite
 
-Use this prompt when rewriting a raw meeting transcript or Gemini summary into the preferred internal summary style.
+Use this prompt when rewriting a raw meeting transcript or AI summary into the preferred internal summary style.
 
 ---
 
@@ -20,9 +20,9 @@ This is **not** meeting minutes and **not** a transcript recap.
 
 The input may be either:
 - a raw transcript, or
-- a Gemini-generated meeting summary
+- a AI-generated meeting summary
 
-If the source is a Gemini summary, your job is primarily to **prune, compress, and reframe**.
+If the source is a AI summary, your job is primarily to **prune, compress, and reframe**.
 If the source is a raw transcript, your job is to **extract the durable takeaways first**, then compress them.
 
 ## Required style
@@ -143,5 +143,5 @@ Before finalizing, check:
 
 ## Output only the final summary
 Do not explain your reasoning.
-Do not mention Gemini.
+Do not mention AI.
 Do not mention these instructions.

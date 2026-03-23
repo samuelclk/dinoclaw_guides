@@ -103,7 +103,7 @@ High score looks like:
 - comfortable domain shorthand
 
 Low score signs:
-- sounds like Gemini or generic AI notes
+- sounds like AI or generic AI notes
 - too polished/public-facing
 - too much explanatory scaffolding
 

@@ -253,7 +253,7 @@ Required if you want:
 ### `spawnAcpSessions`
 Required if you want:
 - persistent ACP workers bound to Discord threads
-- Codex / Claude Code / Gemini ACP sessions launched with `thread: true`
+- Codex / Claude Code / AI ACP sessions launched with `thread: true`
 
 ### `idleHours`
 How long an inactive thread binding stays attached before auto-unfocus.
@@ -485,19 +485,19 @@ Option B is usually better if you want many summaries in parallel without mixing
 Once Discord is working, use explicit commands like:
 
 ```text
-msw blindtest_source_01_kiln
+msw blindtest_source_01_example-co
 ```
 
 ```text
-Use meeting summary worker: blindtest_source_01_kiln
+Use meeting summary worker: blindtest_source_01_example-co
 ```
 
 ```text
-msw blindtest_source_01_kiln and self-score it
+msw blindtest_source_01_example-co and self-score it
 ```
 
 ```text
-compare blindtest_source_01_kiln against blindtest_target_01_kiln
+compare blindtest_source_01_example-co against blindtest_target_01_example-co
 ```
 
 Verified good path for `msw` on Discord:

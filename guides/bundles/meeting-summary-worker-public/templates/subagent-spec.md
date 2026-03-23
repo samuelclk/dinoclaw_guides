@@ -6,7 +6,7 @@ Meeting Summary Worker
 
 ## Purpose
 
-A dedicated specialist agent for converting raw meeting transcripts or Gemini meeting summaries into house-style internal meeting notes.
+A dedicated specialist agent for converting raw meeting transcripts or AI meeting summaries into house-style internal meeting notes.
 
 This worker exists to:
 - keep meeting-summary work isolated from general chat noise
@@ -52,7 +52,7 @@ The worker should treat these files as the source of truth:
 ## Operating modes
 
 ### Mode 1: Production rewrite
-Input: new raw transcript or Gemini summary
+Input: new raw transcript or AI summary
 Output: house-style meeting summary
 
 ### Mode 2: Blind test

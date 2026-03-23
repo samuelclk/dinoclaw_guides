@@ -41,11 +41,11 @@ Upload the input file to the source folder.
 
 This can be:
 - a raw transcript
-- Gemini notes / summary
+- AI-generated notes / summary
 - another meeting-note input document intended for rewrite
 
 ## Negative
-Upload a matching file to **Negative** when you want to show the system what bad / overlong / too-Gemini-ish output looks like.
+Upload a matching file to **Negative** when you want to show the system what bad / overlong / too-AI-ish output looks like.
 
 ## Target
 Only upload the target later when you want:
@@ -63,17 +63,17 @@ Use rigid names.
 ### Training examples
 
 ```text
-training_source_11_companyname
-training_negative_example_11_companyname
-training_target_11_companyname
+training_source_11_example-co
+training_negative_example_11_example-co
+training_target_11_example-co
 ```
 
 ### Blind tests
 
 ```text
-blindtest_source_02_companyname
-blindtest_negative_example_02_companyname
-blindtest_target_02_companyname
+blindtest_source_02_example-co
+blindtest_negative_example_02_example-co
+blindtest_target_02_example-co
 ```
 
 ---
@@ -91,7 +91,7 @@ summarize <filename>
 ### Example
 
 ```text
-summarize blindtest_source_01_kiln
+summarize blindtest_source_01_example-co
 ```
 
 Use this when you want the normal house-style summary output.
@@ -107,7 +107,7 @@ summarize <filename> and self-score it
 ### Example
 
 ```text
-summarize blindtest_source_01_kiln and self-score it
+summarize blindtest_source_01_example-co and self-score it
 ```
 
 Use this when you want:
@@ -125,7 +125,7 @@ blind test <filename>
 ### Example
 
 ```text
-blind test blindtest_source_01_kiln
+blind test blindtest_source_01_example-co
 ```
 
 Use this when:
@@ -143,7 +143,7 @@ compare <source filename> against <target filename>
 ### Example
 
 ```text
-compare blindtest_source_01_kiln against blindtest_target_01_kiln
+compare blindtest_source_01_example-co against blindtest_target_01_example-co
 ```
 
 Use this when the handwritten target has been uploaded and you want:
@@ -176,15 +176,15 @@ These longer forms are also valid and may help reduce ambiguity.
 ## Example forms
 
 ```text
-summarize blindtest_source_01_kiln using the meeting-summary workflow
+summarize blindtest_source_01_example-co using the meeting-summary workflow
 ```
 
 ```text
-run the house-style meeting summariser on blindtest_source_01_kiln
+run the house-style meeting summariser on blindtest_source_01_example-co
 ```
 
 ```text
-rewrite the Gemini notes in blindtest_source_01_kiln into my meeting-summary style
+rewrite the AI-generated notes in blindtest_source_01_example-co into my meeting-summary style
 ```
 
 ---
@@ -193,7 +193,7 @@ rewrite the Gemini notes in blindtest_source_01_kiln into my meeting-summary sty
 
 You do **not** need to tell the assistant whether the source is:
 - a raw transcript, or
-- Gemini notes
+- AI-generated notes
 
 the assistant should infer this from the file contents and switch modes accordingly.
 
@@ -202,10 +202,10 @@ the assistant should:
 - extract durable facts first
 - then compress them into house-style notes
 
-## If source is a Gemini summary
+## If source is a AI summary
 the assistant should:
 - prune narrative structure
-- remove Gemini-style bloat
+- remove AI-style bloat
 - rewrite into house-style notes
 
 ---
@@ -217,15 +217,15 @@ After uploading a file, send exactly one clean command.
 ## Good examples
 
 ```text
-summarize blindtest_source_02_companyname
+summarize blindtest_source_02_example-co
 ```
 
 ```text
-summarize training_source_11_companyname
+summarize training_source_11_example-co
 ```
 
 ```text
-compare blindtest_source_02_companyname against blindtest_target_02_companyname
+compare blindtest_source_02_example-co against blindtest_target_02_example-co
 ```
 
 This is the lowest-friction and least ambiguous pattern.
@@ -258,7 +258,7 @@ This gives the team one repeatable language for:
 2. Send:
 
 ```text
-summarize training_source_11_companyname
+summarize training_source_11_example-co
 ```
 
 3. the assistant returns final summary
@@ -273,7 +273,7 @@ summarize training_source_11_companyname
 4. Send:
 
 ```text
-blind test blindtest_source_02_companyname
+blind test blindtest_source_02_example-co
 ```
 
 5. Review the draft
@@ -288,7 +288,7 @@ blind test blindtest_source_02_companyname
 3. Send:
 
 ```text
-compare blindtest_source_02_companyname against blindtest_target_02_companyname
+compare blindtest_source_02_example-co against blindtest_target_02_example-co
 ```
 
 4. the assistant returns:
@@ -339,7 +339,7 @@ unless there is only one obvious new file.
 Prefer:
 
 ```text
-summarize blindtest_source_01_kiln
+summarize blindtest_source_01_example-co
 ```
 
 ## Upload targets later for blind tests

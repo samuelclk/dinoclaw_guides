@@ -12,7 +12,7 @@ Use this if you only want the minimum setup steps.
 
 Turn:
 - raw meeting transcripts, or
-- Gemini meeting notes
+- AI meeting notes
 
 into:
 - high-signal internal notes
@@ -33,9 +33,9 @@ Negative
 ```
 
 ### Purpose
-- **Source** = transcript or Gemini notes
+- **Source** = transcript or AI-generated notes
 - **Target** = handwritten ideal summary
-- **Negative** = bad / verbose / too-Gemini-ish example
+- **Negative** = bad / verbose / too-AI-ish example
 
 ---
 
@@ -44,12 +44,12 @@ Negative
 Best pattern:
 - source = raw transcript
 - target = your handwritten final summary
-- negative = Gemini summary
+- negative = AI summary
 
 Fallback pattern:
-- source = Gemini summary
+- source = AI summary
 - target = your handwritten final summary
-- negative = same Gemini summary or another bad example
+- negative = same AI summary or another bad example
 
 ---
 
@@ -122,8 +122,8 @@ summarize <filename>
 Examples:
 
 ```text
-summarize blindtest_source_01_kiln
-summarize training_source_8_hashkey
+summarize blindtest_source_01_example-co
+summarize training_source_8_example-co
 ```
 
 Other useful commands:
@@ -145,7 +145,7 @@ Blind test flow:
 4. run:
 
 ```text
-blind test blindtest_source_01_kiln
+blind test blindtest_source_01_example-co
 ```
 
 5. review the output

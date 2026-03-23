@@ -5,14 +5,14 @@
 Use this on Slack, chat surface, or Discord.
 
 ## Upload here
-- **Source** = transcript or Gemini notes
-- **Negative** = bad / too-Gemini-ish version *(optional)*
+- **Source** = transcript or AI-generated notes
+- **Negative** = bad / too-AI-ish version *(optional)*
 - **Target** = your handwritten version *(only if you want scoring/comparison later)*
 
 ## Name files like this
-- `training_source_11_companyname`
-- `training_target_11_companyname`
-- `training_negative_example_11_companyname`
+- `training_source_11_example-co`
+- `training_target_11_example-co`
+- `training_negative_example_11_example-co`
 - `blindtest_source_01_companyname`
 - `blindtest_negative_example_01_companyname`
 - `blindtest_target_01_companyname`
@@ -24,7 +24,7 @@ summarize <filename>
 ```
 Example:
 ```text
-summarize blindtest_source_01_kiln
+summarize blindtest_source_01_example-co
 ```
 
 ### Summary + self-score
@@ -38,7 +38,7 @@ compare <source> against <target>
 ```
 Example:
 ```text
-compare blindtest_source_01_kiln against blindtest_target_01_kiln
+compare blindtest_source_01_example-co against blindtest_target_01_example-co
 ```
 
 ### Batch mode
@@ -62,7 +62,7 @@ the assistant will:
 - extract the durable takeaways
 - rewrite them into high-signal meeting notes
 
-### If source is Gemini notes
+### If source is AI-generated notes
 the assistant will:
 - prune the bloat
 - rewrite into your meeting-summary style

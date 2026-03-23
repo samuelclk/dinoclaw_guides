@@ -2,7 +2,7 @@
 
 > Doc index: `bundles/meeting-summary-worker-public/guides/Meeting_Notes_Summariser_Index.md`
 
-This guide distills the full setup process for building a **high-signal meeting notes summariser** that rewrites raw transcripts or Gemini notes into a compact internal style.
+This guide distills the full setup process for building a **high-signal meeting notes summariser** that rewrites raw transcripts or AI-generated notes into a compact internal style.
 
 It is written so a team can replicate the workflow without re-discovering all the decisions from scratch.
 
@@ -12,7 +12,7 @@ It is written so a team can replicate the workflow without re-discovering all th
 
 Use this setup when you want OpenClaw to turn:
 - raw meeting transcripts, or
-- AI-generated meeting notes (for example Gemini summaries)
+- AI-generated meeting notes (for example AI summaries)
 
 into:
 - **compressed internal operator notes**
@@ -53,7 +53,7 @@ The system has 4 layers.
 
 ## Layer 1 - Dataset
 Three folders:
-- **Source** = raw transcript or Gemini notes
+- **Source** = raw transcript or AI-generated notes
 - **Target** = handwritten target summary in the desired style
 - **Negative** = bad outputs / anti-pattern examples / overly verbose AI notes
 
@@ -117,7 +117,7 @@ Meeting Summary Style Training/
 ### Source
 Contains:
 - raw transcript docs, or
-- Gemini summaries used as rewrite input
+- AI summaries used as rewrite input
 
 ### Target
 Contains:
@@ -126,7 +126,7 @@ Contains:
 ### Negative
 Contains:
 - bad AI outputs
-- verbose Gemini summaries
+- verbose AI summaries
 - anti-pattern examples the system should avoid imitating
 
 ---
@@ -138,17 +138,17 @@ Use rigid names so pairing is easy.
 ## Training examples
 
 ```text
-training_source_1_inveniam
-training_target_1_inveniam
-training_negative_example_1_inveniam
+training_source_1_example-co
+training_target_1_example-co
+training_negative_example_1_example-co
 ```
 
 ## Blind tests
 
 ```text
-blindtest_source_01_kiln
-blindtest_negative_example_01_kiln
-blindtest_target_01_kiln
+blindtest_source_01_example-co
+blindtest_negative_example_01_example-co
+blindtest_target_01_example-co
 ```
 
 ## Why this matters
@@ -174,7 +174,7 @@ For each example, ideally collect:
 
 Best case:
 - **raw transcript** -> **handwritten target**
-- **Gemini summary** as negative example
+- **AI summary** as negative example
 
 This teaches both:
 - extraction from messy source
@@ -183,8 +183,8 @@ This teaches both:
 ## Useful fallback pattern
 
 If raw transcript is not available:
-- **Gemini summary** -> **handwritten target**
-- Gemini summary can also serve as the negative baseline
+- **AI summary** -> **handwritten target**
+- AI summary can also serve as the negative baseline
 
 This mainly teaches rewrite and pruning.
 
@@ -192,7 +192,7 @@ This mainly teaches rewrite and pruning.
 A mixed dataset is still useful.
 You can learn:
 - transcript extraction from the raw examples
-- Gemini-to-human rewrite style from all examples
+- AI-to-human rewrite style from all examples
 
 ---
 
@@ -248,7 +248,7 @@ Purpose:
 Purpose:
 - turn the examples into actionable transformation rules
 - raw transcript -> target
-- Gemini summary -> target
+- AI summary -> target
 - negative example -> target
 
 ## 3. `scoring-rubric.md`
@@ -291,7 +291,7 @@ Instead of “low demand,” rewrite toward the actual reason adoption is weak i
 Preserve the condition that determines whether collaboration is worth doing.
 
 ## 6. Prune housekeeping asks
-Gemini often promotes one-pagers, extra intros, and procedural follow-ups into major action items. Keep them only if they materially change progress.
+AI often promotes one-pagers, extra intros, and procedural follow-ups into major action items. Keep them only if they materially change progress.
 
 ---
 
@@ -347,9 +347,9 @@ Use a two-pass mental workflow:
 1. extract durable facts
 2. compress them into house style
 
-### For Gemini summaries
+### For AI summaries
 Use a rewrite-and-prune workflow:
-1. strip Gemini narrative structure
+1. strip AI narrative structure
 2. compress into house style
 
 ## Operator commands
@@ -365,9 +365,9 @@ summarize all new files in Source
 Examples:
 
 ```text
-summarize blindtest_source_01_kiln
-summarize blindtest_source_01_kiln and self-score it
-compare blindtest_source_01_kiln against blindtest_target_01_kiln
+summarize blindtest_source_01_example-co
+summarize blindtest_source_01_example-co and self-score it
+compare blindtest_source_01_example-co against blindtest_target_01_example-co
 ```
 
 ---
@@ -386,7 +386,7 @@ Blind tests show whether the summariser generalizes.
 4. run:
 
 ```text
-summarize blindtest_source_01_kiln
+summarize blindtest_source_01_example-co
 ```
 
 5. review the draft

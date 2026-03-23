@@ -4,7 +4,7 @@ This file turns the example set into actionable transformation rules.
 
 ## Primary rewrite instruction
 
-Given a raw transcript or Gemini meeting summary, rewrite it into a **compressed internal summary** that preserves only:
+Given a raw transcript or AI meeting summary, rewrite it into a **compressed internal summary** that preserves only:
 - counterparties
 - meaningful strategic / operational points
 - blockers / dependencies
@@ -109,15 +109,15 @@ Preferred syntax:
 - `Get confirmation on ...`
 - `Revisit discussion ...`
 
-## Explicit Gemini -> target insights from early examples
+## Explicit AI -> target insights from early examples
 
-These examples had raw transcripts, but after the explicit Gemini-source pass they now also teach several direct rewrite rules.
+These examples had raw transcripts, but after the explicit AI-source pass they now also teach several direct rewrite rules.
 
 ### Preserve the pivot, not the setup
 If the meeting's value lies in the operator redirecting the conversation from one path to a better one, preserve that pivot explicitly.
 
 Example pattern:
-- Gemini: broad recap of company background + explored ideas
+- AI: broad recap of company background + explored ideas
 - house-style target: `Explained why the original ask should go elsewhere, then redirected to 5 angles to explore`
 
 ### Prefer dependency logic over meeting logistics
@@ -128,19 +128,19 @@ Example pattern:
 - but `this only makes sense if <example> and <org> has an active integration`
 
 ### Rewrite low-demand language into blocker diagnosis
-When Gemini says adoption is low, rewrite into the actual reasons if the source supports it.
+When AI says adoption is low, rewrite into the actual reasons if the source supports it.
 
 Example pattern:
-- Gemini: low client uptake of staking
+- AI: low client uptake of staking
 - house-style target: `The problem seems to be two-fold...`
 
 ### Downgrade housekeeping asks unless they change progress
-Gemini often promotes requests like one-pagers, extra intros, blocker-name gathering, or procedural follow-ups into major next steps.
+AI often promotes requests like one-pagers, extra intros, blocker-name gathering, or procedural follow-ups into major next steps.
 the operator keeps them only if they materially affect progress.
 
 ## Negative -> target conversion rules
 
-### Anti-pattern 1: Gemini over-explains known products
+### Anti-pattern 1: AI over-explains known products
 
 Negative:
 - long paragraphs on how <org> Earn, curators, looping, or interfaces work
@@ -148,7 +148,7 @@ Negative:
 Target behavior:
 - compress to one line unless the mechanic itself is the point
 
-### Anti-pattern 2: Gemini preserves chronology
+### Anti-pattern 2: AI preserves chronology
 
 Negative:
 - meeting recap unfolds in transcript order
@@ -156,7 +156,7 @@ Negative:
 Target behavior:
 - reorder into strategic importance, not chronology
 
-### Anti-pattern 3: Gemini treats all discussed ideas equally
+### Anti-pattern 3: AI treats all discussed ideas equally
 
 Negative:
 - every thread gets equal narrative weight
@@ -164,7 +164,7 @@ Negative:
 Target behavior:
 - rank and retain only the 3–7 points that matter
 
-### Anti-pattern 4: Gemini inflates next steps
+### Anti-pattern 4: AI inflates next steps
 n
 Negative:
 - broad, generic, or inferred actions presented as commitments
@@ -172,7 +172,7 @@ Negative:
 Target behavior:
 - keep only actions clearly implied or stated, rewritten more crisply if needed
 
-### Anti-pattern 5: Gemini includes social / procedural clutter
+### Anti-pattern 5: AI includes social / procedural clutter
 
 Negative:
 - technical difficulties, who rejoined, where people are based, etc.
@@ -250,7 +250,7 @@ Before finalizing, verify:
 For best quality, run the workflow in two passes:
 
 1. **Extraction pass**
-   - from transcript / Gemini notes -> candidate facts, decisions, next steps
+   - from transcript / AI-generated notes -> candidate facts, decisions, next steps
 2. **house-style rewrite pass**
    - compress candidate facts into this house style
 
