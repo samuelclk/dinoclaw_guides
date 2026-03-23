@@ -4,7 +4,7 @@
 We migrated from a single-user dual-profile setup to a dual-user setup:
 
 - `huatyou` = main instance
-- `lidoclaw` = work instance
+- `workclaw` = work instance
 
 Goal: isolate files, runtime, and OAuth accounts while keeping one host.
 
@@ -24,15 +24,15 @@ Goal: isolate files, runtime, and OAuth accounts while keeping one host.
    - Checking `auth-profiles.json` `accountId` per user worked reliably.
 
 4. **Running install commands from target user session matters**
-   - `openclaw gateway install --force` worked best when run directly as `lidoclaw`.
+   - `openclaw gateway install --force` worked best when run directly as `workclaw`.
 
 ---
 
 ## Main failure modes we hit
 
 1. **User bus/systemd context mismatch**
-   - `sudo -u lidoclaw ... openclaw gateway install` failed with user-bus errors.
-   - Fix: run from real `lidoclaw` shell or use `systemctl --machine=lidoclaw@.host --user`.
+   - `sudo -u workclaw ... openclaw gateway install` failed with user-bus errors.
+   - Fix: run from real `workclaw` shell or use `systemctl --machine=workclaw@.host --user`.
 
 2. **Port ownership drift / stray listener**
    - Service looked active while CLI reported unreachable gateway.
@@ -40,7 +40,7 @@ Goal: isolate files, runtime, and OAuth accounts while keeping one host.
 
 3. **State path drift after migration**
    - Errors still referenced `/home/huatyou/.openclaw-work/...`.
-   - Fix: replace stale paths under `/home/lidoclaw/.openclaw` and re-check recursively.
+   - Fix: replace stale paths under `/home/workclaw/.openclaw` and re-check recursively.
 
 4. **Model fallback auth mismatch**
    - `openai/gpt-5.3-codex` fallback required OpenAI API key when we only wanted Codex OAuth.
@@ -54,7 +54,7 @@ Goal: isolate files, runtime, and OAuth accounts while keeping one host.
 
 ## Key operating rules going forward
 
-1. **Always execute work-instance operations as `lidoclaw`**
+1. **Always execute work-instance operations as `workclaw`**
    - Avoid cross-user command wrappers for install/restart unless absolutely needed.
 
 2. **Do not trust “service active” alone**
@@ -63,7 +63,7 @@ Goal: isolate files, runtime, and OAuth accounts while keeping one host.
      - `ss -ltnp | grep <port>`
 
 3. **After migration, scan for stale paths immediately**
-   - `grep -R "/home/huatyou/.openclaw-work" /home/lidoclaw/.openclaw`
+   - `grep -R "/home/huatyou/.openclaw-work" /home/workclaw/.openclaw`
 
 4. **Keep model config auth-consistent**
    - If using Codex OAuth only, don’t leave fallbacks requiring different provider credentials.
@@ -80,9 +80,9 @@ Goal: isolate files, runtime, and OAuth accounts while keeping one host.
   - service: `openclaw-gateway.service`
   - port: `18789`
 
-- Work (`lidoclaw`):
-  - config: `/home/lidoclaw/.openclaw/openclaw.json`
-  - service: `openclaw-gateway.service` (in lidoclaw user manager)
+- Work (`workclaw`):
+  - config: `/home/workclaw/.openclaw/openclaw.json`
+  - service: `openclaw-gateway.service` (in workclaw user manager)
   - port: `18790`
 
 - OAuth:
