@@ -1,4 +1,4 @@
-# Meeting Summary Worker: Inputs / Outputs Contract
+# Meeting Summary Worker: Inputs / Outputs
 
 ## Inputs
 
@@ -22,11 +22,11 @@
 
 ### Required reference docs
 
-- `bundles/meeting-summary-worker-public/templates/production-prompt.md`
-- `bundles/meeting-summary-worker-public/templates/style-spec.md`
+- `bundles/meeting-summary-worker-public/templates/prompt.md`
+- `bundles/meeting-summary-worker-public/templates/style-guide.md`
 - `bundles/meeting-summary-worker-public/templates/rewrite-rules.md`
-- `bundles/meeting-summary-worker-public/templates/scoring-rubric.md`
-- `bundles/meeting-summary-worker-public/templates/subagent-spec.md`
+- `bundles/meeting-summary-worker-public/templates/rubric.md`
+- `bundles/meeting-summary-worker-public/templates/worker-spec.md`
 
 ## Naming conventions
 

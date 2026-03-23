@@ -1,11 +1,11 @@
-# Meeting Summary Worker (Public Bundle)
+# Meeting Summary Workflow (Public Bundle)
 
-This bundle contains the public-safe, reusable parts of a meeting-summary workflow for OpenClaw.
+This bundle contains the public-safe, reusable parts of a meeting summary workflow for OpenClaw.
 
 ## Included
 
 - `guides/` — operator-facing docs, quickstarts, runbooks, and setup guides
-- `templates/` — genericized prompt/spec/rubric/worker-contract files
+- `templates/` — genericized prompt, style guide, rewrite rules, rubric, and worker contract files
 
 ## Excluded on purpose
 
@@ -13,13 +13,11 @@ This bundle contains the public-safe, reusable parts of a meeting-summary workfl
 - blind tests
 - outputs
 - private counterparties / org names
-- Drive IDs / private URLs
+- storage IDs / private URLs
 - environment-specific personal paths where avoidable
 
-## Intended use
+## Start here
 
-Use this bundle as a starting point for building your own house-style meeting summariser:
-1. create your own source/target/negative dataset
-2. adapt the templates to your team style
-3. run blind tests
-4. refine the rules over time
+1. `guides/index.md`
+2. `guides/quickstart.md`
+3. `guides/operator-guide.md`

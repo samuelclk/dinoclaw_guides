@@ -1,6 +1,6 @@
-# Cheat Sheet: Meeting Notes Summariser
+# Cheat Sheet: Meeting Summary Workflow
 
-> Doc index: `bundles/meeting-summary-worker-public/guides/Meeting_Notes_Summariser_Index.md`
+> Doc index: `bundles/meeting-summary-worker-public/guides/index.md`
 
 Use this on Slack, chat surface, or Discord.
 

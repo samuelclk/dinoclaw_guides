@@ -1,6 +1,6 @@
 # Discord Setup for Persistent Thread-Bound Sub-Agents on OpenClaw
 
-> Doc index: `bundles/meeting-summary-worker-public/guides/Meeting_Notes_Summariser_Index.md`
+> Doc index: `bundles/meeting-summary-worker-public/guides/index.md`
 
 This guide shows how to set up Discord so OpenClaw can use **thread-bound sub-agents / ACP workers** reliably.
 

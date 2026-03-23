@@ -1,4 +1,4 @@
-# Meeting Transcript Summary Workflow
+# Transcript Summary Workflow
 
 ## Purpose
 Process shared Google Docs that represent meeting transcripts, generate a concise summary, save it locally for GitHub backup, upload it to shared storage, and notify the operator in chat surface.

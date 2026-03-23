@@ -1,4 +1,4 @@
-# Meeting Summary Sub-Agent Spec
+# Meeting Summary Worker Spec
 
 ## Name
 
@@ -36,10 +36,10 @@ This worker should not:
 ## Canonical references
 
 The worker should treat these files as the source of truth:
-- `bundles/meeting-summary-worker-public/templates/production-prompt.md`
-- `bundles/meeting-summary-worker-public/templates/style-spec.md`
+- `bundles/meeting-summary-worker-public/templates/prompt.md`
+- `bundles/meeting-summary-worker-public/templates/style-guide.md`
 - `bundles/meeting-summary-worker-public/templates/rewrite-rules.md`
-- `bundles/meeting-summary-worker-public/templates/scoring-rubric.md`
+- `bundles/meeting-summary-worker-public/templates/rubric.md`
 
 ## Working style
 

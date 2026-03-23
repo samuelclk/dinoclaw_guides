@@ -1,6 +1,6 @@
-# Quickstart: High-Signal Meeting Notes Summariser
+# Quickstart: High-Signal Meeting Summary Workflow
 
-> Doc index: `bundles/meeting-summary-worker-public/guides/Meeting_Notes_Summariser_Index.md`
+> Doc index: `bundles/meeting-summary-worker-public/guides/index.md`
 
 This is the shortest path to replicate the meeting-summary workflow.
 
@@ -207,4 +207,4 @@ The winning pattern is:
 4. validate with blind tests
 5. keep improving the rules
 
-That is the fastest and cleanest way to build a high-signal meeting notes summariser in OpenClaw.
+That is the fastest and cleanest way to build a high-signal meeting notes summarizer in OpenClaw.

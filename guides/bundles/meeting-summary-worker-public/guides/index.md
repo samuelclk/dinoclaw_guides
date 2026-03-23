@@ -1,6 +1,6 @@
-# Meeting Notes Summariser - Index
+# Meeting Summary Workflow - Index
 
-This is the index page for the Meeting Notes Summariser documentation set.
+This is the index page for the Meeting Summary Workflow documentation set.
 
 Use it as the entry point for operators, teammates, and future setup work.
 
@@ -15,31 +15,31 @@ Use this if you just want:
 - what command to send
 - what output to expect
 
-- Local: `bundles/meeting-summary-worker-public/guides/Cheat_Sheet_Meeting_Notes_Summariser.md`
+- Local: `bundles/meeting-summary-worker-public/guides/cheat-sheet.md`
 
 ### 2. Quickstart
 Shortest path to replicate the setup.
 Use this if you want the minimum viable system.
 
-- Local: `bundles/meeting-summary-worker-public/guides/Quickstart_High_Signal_Meeting_Notes_Summariser.md`
+- Local: `bundles/meeting-summary-worker-public/guides/quickstart.md`
 
 ### 3. Operator Guide
 Full build methodology and replication logic.
 Use this if you want the whole system, not just the minimum steps.
 
-- Local: `bundles/meeting-summary-worker-public/guides/Operator_Guide_Building_a_High_Signal_Meeting_Notes_Summariser_in_OpenClaw.md`
+- Local: `bundles/meeting-summary-worker-public/guides/operator-guide.md`
 
 ### 4. Trigger Runbook
-How to actually trigger the summariser in the current interim workflow.
+How to actually trigger the summarizer in the current interim workflow.
 Use this for day-to-day operation.
 
-- Local: `bundles/meeting-summary-worker-public/guides/Runbook_Triggering_the_Meeting_Notes_Summariser.md`
+- Local: `bundles/meeting-summary-worker-public/guides/runbook.md`
 
 ### 5. Discord Setup Guide
 How to configure Discord for persistent thread-bound specialist workers.
 Use this if you want the best long-term chat surface for this workflow.
 
-- Local: `bundles/meeting-summary-worker-public/guides/Discord_Setup_for_Persistent_Thread_Bound_Subagents_on_OpenClaw.md`
+- Local: `bundles/meeting-summary-worker-public/guides/discord-setup.md`
 
 ---
 
@@ -119,12 +119,12 @@ Only read the **Discord Setup Guide** if they are setting up the long-term speci
 
 These are the durable style/system files behind the workflow:
 
-- `bundles/meeting-summary-worker-public/templates/style-spec.md`
+- `bundles/meeting-summary-worker-public/templates/style-guide.md`
 - `bundles/meeting-summary-worker-public/templates/rewrite-rules.md`
-- `bundles/meeting-summary-worker-public/templates/scoring-rubric.md`
-- `bundles/meeting-summary-worker-public/templates/production-prompt.md`
-- `bundles/meeting-summary-worker-public/templates/subagent-spec.md`
-- `bundles/meeting-summary-worker-public/templates/io-contract.md`
+- `bundles/meeting-summary-worker-public/templates/rubric.md`
+- `bundles/meeting-summary-worker-public/templates/prompt.md`
+- `bundles/meeting-summary-worker-public/templates/worker-spec.md`
+- `bundles/meeting-summary-worker-public/templates/inputs-outputs.md`
 
 ---
 

@@ -1,4 +1,4 @@
-# House-Style Meeting Summary Spec
+# House-Style Meeting Summary Guide
 
 Built from a set of paired examples and anti-pattern examples.
 

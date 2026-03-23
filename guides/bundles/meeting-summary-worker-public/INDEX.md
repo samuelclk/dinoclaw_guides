@@ -2,13 +2,14 @@
 
 ## Start here
 
-1. `guides/Quickstart_High_Signal_Meeting_Notes_Summariser.md`
-2. `guides/Operator_Guide_Building_a_High_Signal_Meeting_Notes_Summariser_in_OpenClaw.md`
-3. `guides/Runbook_Triggering_the_Meeting_Notes_Summariser.md`
-4. `templates/production-prompt.md`
-5. `templates/style-spec.md`
-6. `templates/rewrite-rules.md`
-7. `templates/scoring-rubric.md`
+1. `guides/index.md`
+2. `guides/quickstart.md`
+3. `guides/operator-guide.md`
+4. `guides/runbook.md`
+5. `templates/prompt.md`
+6. `templates/style-guide.md`
+7. `templates/rewrite-rules.md`
+8. `templates/rubric.md`
 
 ## Notes
 

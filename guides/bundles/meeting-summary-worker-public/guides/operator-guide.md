@@ -1,8 +1,8 @@
-# Operator Guide: Building a High-Signal Meeting Notes Summariser in OpenClaw
+# Operator Guide: Building a High-Signal Meeting Summary Workflow in OpenClaw
 
-> Doc index: `bundles/meeting-summary-worker-public/guides/Meeting_Notes_Summariser_Index.md`
+> Doc index: `bundles/meeting-summary-worker-public/guides/index.md`
 
-This guide distills the full setup process for building a **high-signal meeting notes summariser** that rewrites raw transcripts or AI-generated notes into a compact internal style.
+This guide distills the full setup process for building a **high-signal meeting notes summarizer** that rewrites raw transcripts or AI-generated notes into a compact internal style.
 
 It is written so a team can replicate the workflow without re-discovering all the decisions from scratch.
 
@@ -200,7 +200,7 @@ You can learn:
 
 ## What to infer from the examples
 
-The summariser should learn:
+The summarizer should learn:
 - output structure
 - tone and compression level
 - what counts as a key discussion point
@@ -376,7 +376,7 @@ compare blindtest_source_01_example-co against blindtest_target_01_example-co
 
 ## Why blind tests matter
 A system that reproduces training examples is not yet proven.
-Blind tests show whether the summariser generalizes.
+Blind tests show whether the summarizer generalizes.
 
 ## Blind test procedure
 
@@ -493,7 +493,7 @@ then Discord is the recommended surface.
 - optional persistent ACP channel binding
 
 Relevant companion guide:
-- `bundles/meeting-summary-worker-public/guides/Discord_Setup_for_Persistent_Thread_Bound_Subagents_on_OpenClaw.md`
+- `bundles/meeting-summary-worker-public/guides/discord-setup.md`
 
 ---
 
@@ -545,13 +545,13 @@ Do not leave the bot open just because it sits in a private server.
 
 These are worth committing:
 - `bundles/meeting-summary-worker-public/templates/README.md`
-- `bundles/meeting-summary-worker-public/templates/style-spec.md`
+- `bundles/meeting-summary-worker-public/templates/style-guide.md`
 - `bundles/meeting-summary-worker-public/templates/rewrite-rules.md`
-- `bundles/meeting-summary-worker-public/templates/scoring-rubric.md`
-- `bundles/meeting-summary-worker-public/templates/production-prompt.md`
+- `bundles/meeting-summary-worker-public/templates/rubric.md`
+- `bundles/meeting-summary-worker-public/templates/prompt.md`
 - `bundles/meeting-summary-worker-public/templates/patterns-detected.md`
-- `bundles/meeting-summary-worker-public/templates/subagent-spec.md`
-- `bundles/meeting-summary-worker-public/templates/io-contract.md`
+- `bundles/meeting-summary-worker-public/templates/worker-spec.md`
+- `bundles/meeting-summary-worker-public/templates/inputs-outputs.md`
 - operator guides under `bundles/meeting-summary-worker-public/guides/`
 
 Do **not** commit:
@@ -629,4 +629,4 @@ The replicable recipe is:
 6. **Use Discord if you need true persistent thread-bound specialist workers**
 7. **Treat the worker as an operator of the files, not the sole holder of the expertise**
 
-That is the cleanest way to build a durable, high-signal meeting notes summariser in OpenClaw that a whole team can reproduce and extend.
+That is the cleanest way to build a durable, high-signal meeting notes summarizer in OpenClaw that a whole team can reproduce and extend.

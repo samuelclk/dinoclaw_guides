@@ -1,6 +1,6 @@
-# Runbook: Triggering the Meeting Notes Summariser (Current Interim Workflow)
+# Runbook: Triggering the Meeting Summary Workflow
 
-> Doc index: `bundles/meeting-summary-worker-public/guides/Meeting_Notes_Summariser_Index.md`
+> Doc index: `bundles/meeting-summary-worker-public/guides/index.md`
 
 Use this runbook to trigger the Meeting Notes summarising process **right now**, before a fully persistent thread-bound specialist worker is available on every chat surface.
 
@@ -180,7 +180,7 @@ summarize blindtest_source_01_example-co using the meeting-summary workflow
 ```
 
 ```text
-run the house-style meeting summariser on blindtest_source_01_example-co
+run the house-style meeting summarizer on blindtest_source_01_example-co
 ```
 
 ```text
@@ -384,4 +384,4 @@ or
 compare <source> against <target>
 ```
 
-That is the current clean operator workflow for the Meeting Notes summariser.
+That is the current clean operator workflow for the Meeting Notes summarizer.
