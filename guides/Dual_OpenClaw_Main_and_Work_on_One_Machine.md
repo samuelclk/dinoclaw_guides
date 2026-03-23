@@ -4,7 +4,7 @@
 Run two isolated OpenClaw instances on one host:
 
 - **main** instance under user `huatyou` on port `18789`
-- **work** instance under user `lidoclaw` on port `18790`
+- **work** instance under user `workclaw` on port `18790`
 - separate files, services, and OAuth accounts
 
 This is the operator-safe method we validated.
@@ -14,9 +14,9 @@ This is the operator-safe method we validated.
 ## Architecture (final state)
 
 - Main state: `/home/huatyou/.openclaw`
-- Work state: `/home/lidoclaw/.openclaw`
+- Work state: `/home/workclaw/.openclaw`
 - Main service: `openclaw-gateway.service` (user `huatyou`, port `18789`)
-- Work service: `openclaw-gateway.service` (user `lidoclaw`, port `18790`)
+- Work service: `openclaw-gateway.service` (user `workclaw`, port `18790`)
 - OAuth accounts differ by `accountId` in each user’s `auth-profiles.json`
 
 ---
@@ -44,19 +44,19 @@ mkdir -p "$BK"
 cp -a /home/huatyou/.openclaw-work "$BK"/ 2>/dev/null || true
 
 # 1) create/prepare work user
-sudo adduser --disabled-password --gecos "" lidoclaw || true
-sudo setfacl -m u:lidoclaw:x /home/huatyou
+sudo adduser --disabled-password --gecos "" workclaw || true
+sudo setfacl -m u:workclaw:x /home/huatyou
 
-# 2) copy work state into lidoclaw home
-sudo -u lidoclaw -H mkdir -p /home/lidoclaw/.openclaw
-sudo rsync -a /home/huatyou/.openclaw-work/ /home/lidoclaw/.openclaw/
-sudo chown -R lidoclaw:lidoclaw /home/lidoclaw/.openclaw
+# 2) copy work state into workclaw home
+sudo -u workclaw -H mkdir -p /home/workclaw/.openclaw
+sudo rsync -a /home/huatyou/.openclaw-work/ /home/workclaw/.openclaw/
+sudo chown -R workclaw:workclaw /home/workclaw/.openclaw
 
-# 3) switch to lidoclaw for the rest of this block
-sudo -iu lidoclaw
+# 3) switch to workclaw for the rest of this block
+sudo -iu workclaw
 
-# 4) set core config (as lidoclaw)
-/home/huatyou/.npm-global/bin/openclaw config set agents.defaults.workspace /home/lidoclaw/.openclaw/workspace
+# 4) set core config (as workclaw)
+/home/huatyou/.npm-global/bin/openclaw config set agents.defaults.workspace /home/workclaw/.openclaw/workspace
 /home/huatyou/.npm-global/bin/openclaw config set gateway.port 18790
 /home/huatyou/.npm-global/bin/openclaw config set agents.defaults.model.primary openai-codex/gpt-5.4
 /home/huatyou/.npm-global/bin/openclaw config set agents.defaults.model.fallbacks '[]'
@@ -66,7 +66,7 @@ sudo -iu lidoclaw
 set -a; source ~/.openclaw/.env; set +a
 export OPENCLAW_GATEWAY_TOKEN="${OPENCLAW_GATEWAY_TOKEN_WORK:-$OPENCLAW_GATEWAY_TOKEN}"
 
-# 6) install/reinstall service from lidoclaw session
+# 6) install/reinstall service from workclaw session
 /home/huatyou/.npm-global/bin/openclaw gateway install --force
 systemctl --user daemon-reload
 systemctl --user enable openclaw-gateway.service
@@ -95,39 +95,39 @@ cp -a /home/huatyou/.config/systemd/user/openclaw-gateway-work.service "$BK"/ 2>
 cp -a /home/huatyou/.bashrc "$BK"/bashrc.before
 ```
 
-## Step 2 — Create `lidoclaw` user
+## Step 2 — Create `workclaw` user
 
 ```bash
-sudo adduser --disabled-password --gecos "" lidoclaw
+sudo adduser --disabled-password --gecos "" workclaw
 ```
 
 If you already created `openclawwork` and want rename:
 
 ```bash
-sudo usermod -l lidoclaw openclawwork
-sudo groupmod -n lidoclaw openclawwork
-sudo usermod -d /home/lidoclaw -m lidoclaw
+sudo usermod -l workclaw openclawwork
+sudo groupmod -n workclaw openclawwork
+sudo usermod -d /home/workclaw -m workclaw
 ```
 
 ## Step 3 — Allow traversal to shared binary path
 
 ```bash
-sudo setfacl -m u:lidoclaw:x /home/huatyou
+sudo setfacl -m u:workclaw:x /home/huatyou
 ```
 
 ## Step 4 — Copy work state into new user home
 
 ```bash
-sudo -u lidoclaw -H mkdir -p /home/lidoclaw/.openclaw
-sudo rsync -a /home/huatyou/.openclaw-work/ /home/lidoclaw/.openclaw/
-sudo chown -R lidoclaw:lidoclaw /home/lidoclaw/.openclaw
+sudo -u workclaw -H mkdir -p /home/workclaw/.openclaw
+sudo rsync -a /home/huatyou/.openclaw-work/ /home/workclaw/.openclaw/
+sudo chown -R workclaw:workclaw /home/workclaw/.openclaw
 ```
 
-## Step 5 — Login as `lidoclaw` and fix config
+## Step 5 — Login as `workclaw` and fix config
 
 ```bash
-sudo -iu lidoclaw
-/home/huatyou/.npm-global/bin/openclaw config set agents.defaults.workspace /home/lidoclaw/.openclaw/workspace
+sudo -iu workclaw
+/home/huatyou/.npm-global/bin/openclaw config set agents.defaults.workspace /home/workclaw/.openclaw/workspace
 /home/huatyou/.npm-global/bin/openclaw config set gateway.port 18790
 /home/huatyou/.npm-global/bin/openclaw config set agents.defaults.model.primary openai-codex/gpt-5.4
 /home/huatyou/.npm-global/bin/openclaw config set agents.defaults.model.fallbacks '[]'
@@ -146,7 +146,7 @@ TELEGRAM_BOT_TOKEN=<work_bot_token>
 OPENCLAW_GATEWAY_TOKEN_WORK=<work_gateway_token>
 ```
 
-## Step 7 — Install service from lidoclaw session
+## Step 7 — Install service from workclaw session
 
 ```bash
 set -a
@@ -170,7 +170,7 @@ Sign in with the **work** ChatGPT account.
 
 ## Step 9 — Verify service, channels, and account split
 
-### As `lidoclaw`
+### As `workclaw`
 ```bash
 /home/huatyou/.npm-global/bin/openclaw gateway status
 /home/huatyou/.npm-global/bin/openclaw channels status
@@ -180,7 +180,7 @@ ss -ltnp | grep 18790
 ### Check account split
 ```bash
 jq -r '.profiles["openai-codex:default"].accountId // "missing"' /home/huatyou/.openclaw/agents/main/agent/auth-profiles.json
-jq -r '.profiles["openai-codex:default"].accountId // "missing"' /home/lidoclaw/.openclaw/agents/main/agent/auth-profiles.json
+jq -r '.profiles["openai-codex:default"].accountId // "missing"' /home/workclaw/.openclaw/agents/main/agent/auth-profiles.json
 ```
 
 Expected: two different `accountId` values.
@@ -193,16 +193,16 @@ After everything is working, lock it down:
 
 ```bash
 # ownership
-sudo chown -R lidoclaw:lidoclaw /home/lidoclaw
+sudo chown -R workclaw:workclaw /home/workclaw
 
 # directory permissions
-sudo chmod 700 /home/lidoclaw
-sudo chmod 700 /home/lidoclaw/.openclaw
-sudo chmod 700 /home/lidoclaw/.ssh 2>/dev/null || true
+sudo chmod 700 /home/workclaw
+sudo chmod 700 /home/workclaw/.openclaw
+sudo chmod 700 /home/workclaw/.ssh 2>/dev/null || true
 
 # sensitive files
-sudo chmod 600 /home/lidoclaw/.openclaw/.env 2>/dev/null || true
-sudo find /home/lidoclaw/.openclaw -type f -name '*.json' -exec chmod 600 {} \;
+sudo chmod 600 /home/workclaw/.openclaw/.env 2>/dev/null || true
+sudo find /home/workclaw/.openclaw -type f -name '*.json' -exec chmod 600 {} \;
 # if any tooling later fails due to strict JSON permissions, relax only non-sensitive JSON files to 640.
 
 # remove old ACLs you no longer need
@@ -223,7 +223,7 @@ Keep each agent’s workspace isolated in its own home directory, and add one ne
 # one-time setup
 sudo groupadd openclaw-shared 2>/dev/null || true
 sudo usermod -aG openclaw-shared huatyou
-sudo usermod -aG openclaw-shared lidoclaw
+sudo usermod -aG openclaw-shared workclaw
 
 sudo mkdir -p /srv/openclaw-shared/staging
 sudo chown -R root:openclaw-shared /srv/openclaw-shared
@@ -250,14 +250,14 @@ sudo setfacl -d -m g:openclaw-shared:rwx /srv/openclaw-shared/staging/shared
 # as huatyou
 echo "from-main $(date -Is)" > /srv/openclaw-shared/staging/shared/main-note.txt
 
-# as lidoclaw
+# as workclaw
 cat /srv/openclaw-shared/staging/shared/main-note.txt
 echo "from-work $(date -Is)" >> /srv/openclaw-shared/staging/shared/main-note.txt
 cat /srv/openclaw-shared/staging/shared/main-note.txt
 
 # copy into each isolated workspace (manual merge/handoff)
 cp /srv/openclaw-shared/staging/shared/main-note.txt /home/huatyou/.openclaw/workspace/from-shared.txt
-cp /srv/openclaw-shared/staging/shared/main-note.txt /home/lidoclaw/.openclaw/workspace/from-shared.txt
+cp /srv/openclaw-shared/staging/shared/main-note.txt /home/workclaw/.openclaw/workspace/from-shared.txt
 ```
 
 ### Critical runtime refresh check (important)
@@ -286,7 +286,7 @@ If shell works but OpenClaw still gets `Permission denied`:
 Observed-good state from validation:
 - both users can create files under `/srv/openclaw-shared/staging`
 - file group is `openclaw-shared`
-- `lidoclaw` hardening remains intact (`700` dirs, `600` secrets/json)
+- `workclaw` hardening remains intact (`700` dirs, `600` secrets/json)
 - agent-side access started working only after process context reflected the new group membership
 
 ---
