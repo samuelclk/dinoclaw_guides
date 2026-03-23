@@ -41,7 +41,7 @@ So the mental model is:
 
 Inside the `dinoclaw_work` repo, the final structure is:
 
-- `Lido/`
+- `Work/`
   - `shared/`
   - `final/`
 - `Stakesaurus/`
@@ -87,7 +87,7 @@ These also go to:
 ## The categories we created
 
 Top-level categories:
-- `Lido`
+- `Work`
 - `Stakesaurus`
 - `Personal`
 
@@ -95,8 +95,8 @@ These sit **above** `shared` and `final`.
 
 That means the correct shape is:
 
-- `Lido/shared`
-- `Lido/final`
+- `Work/shared`
+- `Work/final`
 - `Stakesaurus/shared`
 - `Stakesaurus/final`
 - `Personal/shared`
@@ -321,10 +321,10 @@ This is much better than trying to re-parse ad hoc shell output every time.
 
 We first created the wrong hierarchy:
 
-- `shared/Lido`
+- `shared/Work`
 - `shared/Stakesaurus`
 - `shared/Personal`
-- `final/Lido`
+- `final/Work`
 - `final/Stakesaurus`
 - `final/Personal`
 
@@ -332,8 +332,8 @@ That was not what you wanted.
 
 The correct hierarchy is category-first:
 
-- `Lido/shared`
-- `Lido/final`
+- `Work/shared`
+- `Work/final`
 - `Stakesaurus/shared`
 - `Stakesaurus/final`
 - `Personal/shared`
@@ -430,8 +430,8 @@ If you want to reproduce this from scratch:
 2. create a local work repo
 3. authenticate GitHub with a PAT stored in `.env`
 4. create the folder layout:
-   - `Lido/shared`
-   - `Lido/final`
+   - `Work/shared`
+   - `Work/final`
    - `Stakesaurus/shared`
    - `Stakesaurus/final`
    - `Personal/shared`
