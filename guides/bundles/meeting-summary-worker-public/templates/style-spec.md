@@ -83,7 +83,7 @@ Include items that affect one or more of the following:
 - commercial leverage (fees, TVL, listing support, co-marketing, etc.)
 
 Good candidates:
-- actual interest in <org> Earn / DI / stETH / stVaults
+- actual interest in the relevant product, integration path, or commercial offering
 - specific use cases (collateral, distribution, treasury, custody, structured products)
 - constraints that block adoption
 - internal champions / relevant owners
@@ -134,8 +134,8 @@ Preferred style:
 - omit fake next steps like “continue exploring” unless that is genuinely the only outcome
 
 Good:
-- `the operator to share DI slides`
-- `Constance to help nudge stETH listing`
+- `owner to share the relevant materials`
+- `partner contact to help unblock the listing or integration path`
 - `Team to confirm integration requirements and timelines`
 
 Weaker / avoid unless unavoidable:

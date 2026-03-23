@@ -48,7 +48,7 @@ Convert from:
 - “the operator explained how X works using A, B, and C”
 
 Into:
-- “Presented <org> Earn / DI integration model”
+- “Presented the relevant integration model”
 - “Explained that Mellow is the relevant curator for RWA allocation discussions”
 
 Rule: preserve the consequence, not the lecture.
@@ -59,9 +59,9 @@ When many details point to the same opportunity, collapse them into one angle.
 
 Examples:
 - multiple sentences about collateral, trading, and exchange mechanics ->
-  `Enabling stETH as trading collateral on Swarm`
+  `Enable the relevant asset as trading collateral on the target platform`
 - long explanation of JPY stablecoin + borrowing mechanics ->
-  `High interest in using stETH as collateral to borrow the new JPY stablecoin via Morpho`
+  `High interest in using the relevant asset as collateral for a new financing or stablecoin workflow`
 
 ### 6. Keep useful numbers, drop decorative ones
 
@@ -90,7 +90,7 @@ Preferred note line styles:
 Examples:
 - `<example> already utilizes <org> Finance to deploy their Ethereum users' assets for their "simple earn" product.`
 - `<example> Exchange and OTC do not support margin trading yet.`
-- `Constance Chen offered to help expedite stETH listing internally.`
+- `A partner contact offered to help expedite the listing or integration internally.`
 
 ### 8. Rewrite next steps into real operator actions
 

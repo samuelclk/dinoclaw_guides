@@ -86,7 +86,7 @@ Keep only points that affect one or more of:
 - concrete next actions
 
 Good examples of what to keep:
-- actual interest in <org> Earn / DI / stETH / stVaults
+- actual interest in the relevant product, integration path, or commercial offering
 - specific integration or collateral use cases
 - commercial leverage points
 - blocker diagnosis
