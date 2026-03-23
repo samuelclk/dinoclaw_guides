@@ -26,3 +26,8 @@ Do **not** use this repo as the source of truth for live runtime config.
 - `bundles/` — grouped doc sets that belong together (guides + runbooks + training materials)
 - `postmortems/` — retrospective writeups
 - `experiments/` — rough notes and comparisons
+
+
+## Notable bundles
+
+- `bundles/meeting-summary-worker-public/` — public-safe meeting-summary workflow starter bundle
