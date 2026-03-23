@@ -30,6 +30,5 @@ Do **not** use this repo as the source of truth for live runtime config.
 
 ## Notable bundles
 
-- `bundles/meeting-summary-worker-public/` — public-safe meeting-summary workflow starter bundle
+- `guides/bundles/meeting-summary-worker-public/` — public-safe meeting-summary workflow starter bundle
 
-- `guides/bundles/meeting-summary-worker-public/` — mirrored copy under the main guides tree for easier browsing
