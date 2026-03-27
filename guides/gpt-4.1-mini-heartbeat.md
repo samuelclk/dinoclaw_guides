@@ -44,15 +44,15 @@ Use this `HEARTBEAT.md` content:
 
 You need to edit:
 
-- OpenClaw config: `/home/huatyou/.openclaw/openclaw.json`
-- Heartbeat checklist: `/home/huatyou/.openclaw/workspace/HEARTBEAT.md`
+- OpenClaw config: `/home/<user>/.openclaw/openclaw.json`
+- Heartbeat checklist: `/home/<user>/.openclaw/workspace/HEARTBEAT.md`
 
 ## Step 1 — edit `openclaw.json`
 
 Open a terminal and run:
 
 ```bash
-cd /home/huatyou/.openclaw
+cd /home/<user>/.openclaw
 nano openclaw.json
 ```
 
@@ -80,7 +80,7 @@ Find the heartbeat block under your agent defaults and make it look like this:
 Run:
 
 ```bash
-cd /home/huatyou/.openclaw/workspace
+cd /home/<user>/.openclaw/workspace
 nano HEARTBEAT.md
 ```
 
@@ -118,7 +118,7 @@ You want to see the service come back as:
 Run:
 
 ```bash
-cd /home/huatyou/.openclaw/workspace
+cd /home/<user>/.openclaw/workspace
 openclaw config get agents.defaults.heartbeat
 ```
 
@@ -140,7 +140,7 @@ You want to see:
 If you want to confirm that heartbeat is using its own session instead of your main DM session, run:
 
 ```bash
-cd /home/huatyou/.openclaw/workspace
+cd /home/<user>/.openclaw/workspace
 openclaw status
 ```
 
@@ -149,7 +149,7 @@ Or inspect the session store directly:
 ```bash
 python3 - <<'PY'
 import json
-with open('/home/huatyou/.openclaw/agents/main/sessions/sessions.json') as f:
+with open('/home/<user>/.openclaw/agents/main/sessions/sessions.json') as f:
     data=json.load(f)
 for key in sorted(data):
     if 'heartbeat-main' in key or key.endswith(':main'):
@@ -231,7 +231,7 @@ not the model itself.
 Check the live config:
 
 ```bash
-cd /home/huatyou/.openclaw/workspace
+cd /home/<user>/.openclaw/workspace
 openclaw config get agents.defaults.heartbeat
 ```
 

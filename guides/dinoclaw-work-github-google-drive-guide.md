@@ -249,7 +249,7 @@ That made `gog` store tokens in its own encrypted file-based keyring.
 When using `gog` file keyring, it may prompt for:
 
 ```bash
-Enter passphrase to unlock "/home/huatyou/.config/gogcli/keyring"
+Enter passphrase to unlock "/home/<user>/.config/gogcli/keyring"
 ```
 
 For automation, the practical fix was to put this in `.env`:

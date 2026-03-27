@@ -39,8 +39,8 @@ Goal: isolate files, runtime, and OAuth accounts while keeping one host.
    - Fix: explicit stop + kill stale process + start clean supervised service.
 
 3. **State path drift after migration**
-   - Errors still referenced `/home/huatyou/.openclaw-work/...`.
-   - Fix: replace stale paths under `/home/workclaw/.openclaw` and re-check recursively.
+   - Errors still referenced `/home/<user>/.openclaw-work/...`.
+   - Fix: replace stale paths under `/home/<work-user>/.openclaw` and re-check recursively.
 
 4. **Model fallback auth mismatch**
    - `openai/gpt-5.3-codex` fallback required OpenAI API key when we only wanted Codex OAuth.
@@ -63,7 +63,7 @@ Goal: isolate files, runtime, and OAuth accounts while keeping one host.
      - `ss -ltnp | grep <port>`
 
 3. **After migration, scan for stale paths immediately**
-   - `grep -R "/home/huatyou/.openclaw-work" /home/workclaw/.openclaw`
+   - `grep -R "/home/<user>/.openclaw-work" /home/<work-user>/.openclaw`
 
 4. **Keep model config auth-consistent**
    - If using Codex OAuth only, don’t leave fallbacks requiring different provider credentials.
@@ -76,12 +76,12 @@ Goal: isolate files, runtime, and OAuth accounts while keeping one host.
 ## Final stable baseline
 
 - Main (`huatyou`):
-  - config: `/home/huatyou/.openclaw/openclaw.json`
+  - config: `/home/<user>/.openclaw/openclaw.json`
   - service: `openclaw-gateway.service`
   - port: `18789`
 
 - Work (`workclaw`):
-  - config: `/home/workclaw/.openclaw/openclaw.json`
+  - config: `/home/<work-user>/.openclaw/openclaw.json`
   - service: `openclaw-gateway.service` (in workclaw user manager)
   - port: `18790`
 

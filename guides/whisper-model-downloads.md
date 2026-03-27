@@ -7,13 +7,13 @@ Do **not** commit Whisper model binaries to Git. Keep them local on disk and re-
 Save Whisper model files here:
 
 ```bash
-/home/huatyou/.openclaw/models/whisper/
+/home/<user>/.openclaw/models/whisper/
 ```
 
 Create the folder if needed:
 
 ```bash
-mkdir -p /home/huatyou/.openclaw/models/whisper
+mkdir -p /home/<user>/.openclaw/models/whisper
 ```
 
 ---
@@ -23,21 +23,21 @@ mkdir -p /home/huatyou/.openclaw/models/whisper
 ### 1. `ggml-base.en.bin`
 
 ```bash
-cd /home/huatyou/.openclaw/models/whisper
+cd /home/<user>/.openclaw/models/whisper
 curl -L --fail -o ggml-base.en.bin https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.en.bin
 ```
 
 ### 2. `ggml-small.en.bin`
 
 ```bash
-cd /home/huatyou/.openclaw/models/whisper
+cd /home/<user>/.openclaw/models/whisper
 curl -L --fail -o ggml-small.en.bin https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.en.bin
 ```
 
 ### 3. `ggml-medium.en.bin`
 
 ```bash
-cd /home/huatyou/.openclaw/models/whisper
+cd /home/<user>/.openclaw/models/whisper
 curl -L --fail -o ggml-medium.en.bin https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-medium.en.bin
 ```
 
@@ -56,14 +56,14 @@ curl -L --fail -o ggml-medium.en.bin https://huggingface.co/ggerganov/whisper.cp
 Open:
 
 ```bash
-cd /home/huatyou/.openclaw
+cd /home/<user>/.openclaw
 nano .env
 ```
 
 Add or update:
 
 ```bash
-WHISPER_CPP_MODEL=/home/huatyou/.openclaw/models/whisper/ggml-small.en.bin
+WHISPER_CPP_MODEL=/home/<user>/.openclaw/models/whisper/ggml-small.en.bin
 ```
 
 Save and exit `nano`:

@@ -36,8 +36,8 @@ Do **not** use this guide as the default architecture if you want strict work/pe
 
 ## Architecture (workaround state)
 
-- Main state: `/home/huatyou/.openclaw`
-- Work state: `/home/lidoclaw/.openclaw`
+- Main state: `/home/<user>/.openclaw`
+- Work state: `/home/<work-user>/.openclaw`
 - Main service: `openclaw-gateway.service` under user `huatyou` on port `18789`
 - Work service: `openclaw-gateway.service` under user `lidoclaw` on port `18790`
 - Shared handoff path: `/srv/openclaw-shared/staging/shared`
@@ -69,7 +69,7 @@ So this is best treated as:
 ### Required
 - SSH/shell access as `huatyou`
 - `sudo` access
-- OpenClaw installed and callable (example used here: `/home/huatyou/.npm-global/bin/openclaw`)
+- OpenClaw installed and callable (example used here: `/home/<user>/.npm-global/bin/openclaw`)
 - Existing main instance
 - Existing or planned work instance under `lidoclaw`
 
@@ -131,16 +131,16 @@ This means:
 If the dual-user setup is already working, keep it as-is.
 
 Expected state:
-- `/home/huatyou/.openclaw` for main
-- `/home/lidoclaw/.openclaw` for work
+- `/home/<user>/.openclaw` for main
+- `/home/<work-user>/.openclaw` for work
 - port `18789` for main
 - port `18790` for work
 
 If needed, verify as each user:
 
 ```bash
-/home/huatyou/.npm-global/bin/openclaw gateway status
-/home/huatyou/.npm-global/bin/openclaw channels status
+/home/<user>/.npm-global/bin/openclaw gateway status
+/home/<user>/.npm-global/bin/openclaw channels status
 ```
 
 For the work user, run from a `lidoclaw` shell.
@@ -241,8 +241,8 @@ cat /srv/openclaw-shared/staging/shared/main-note.txt
 Then each side can import into its own workspace:
 
 ```bash
-cp /srv/openclaw-shared/staging/shared/main-note.txt /home/huatyou/.openclaw/workspace/from-shared.txt
-cp /srv/openclaw-shared/staging/shared/main-note.txt /home/lidoclaw/.openclaw/workspace/from-shared.txt
+cp /srv/openclaw-shared/staging/shared/main-note.txt /home/<user>/.openclaw/workspace/from-shared.txt
+cp /srv/openclaw-shared/staging/shared/main-note.txt /home/<work-user>/.openclaw/workspace/from-shared.txt
 ```
 
 This keeps workspaces isolated while still enabling deliberate exchange.

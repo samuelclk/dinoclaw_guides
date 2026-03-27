@@ -138,7 +138,7 @@ Do **not** keep live secrets directly in `openclaw.json` if you plan to back it 
 Change into the OpenClaw directory:
 
 ```bash
-cd /home/huatyou/.openclaw
+cd /home/<user>/.openclaw
 ```
 
 Open the file in `nano`:
@@ -267,7 +267,7 @@ After converting, restart OpenClaw if needed and verify it still starts cleanly.
 Change into the top-level OpenClaw folder first:
 
 ```bash
-cd /home/huatyou/.openclaw
+cd /home/<user>/.openclaw
 git init
 git branch -M main
 ```
@@ -281,7 +281,7 @@ If you previously had a repo only inside `workspace/`, treat that as a separate 
 Change into the repo root:
 
 ```bash
-cd /home/huatyou/.openclaw
+cd /home/<user>/.openclaw
 ```
 
 Then open `.gitignore` in `nano`:
@@ -359,7 +359,7 @@ Because they may contain:
 Point the repo at your private GitHub repo:
 
 ```bash
-cd /home/huatyou/.openclaw
+cd /home/<user>/.openclaw
 git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
 ```
 
@@ -392,7 +392,7 @@ Use force push only when you mean it.
 Use this sequence:
 
 ```bash
-cd /home/huatyou/.openclaw
+cd /home/<user>/.openclaw
 git add .
 git diff --cached --quiet && echo "No changes to commit" || git commit -m "Backup update"
 git push
@@ -407,8 +407,8 @@ This avoids an error when there is nothing new to commit.
 Create the scripts folder and change into it:
 
 ```bash
-mkdir -p /home/huatyou/.openclaw/scripts
-cd /home/huatyou/.openclaw/scripts
+mkdir -p /home/<user>/.openclaw/scripts
+cd /home/<user>/.openclaw/scripts
 ```
 
 Then create the script in `nano`:
@@ -423,7 +423,7 @@ Paste these contents:
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_DIR="/home/huatyou/.openclaw"
+REPO_DIR="/home/<user>/.openclaw"
 LOG_DIR="$REPO_DIR/logs"
 LOG_FILE="$LOG_DIR/backup-openclaw.log"
 
@@ -454,7 +454,7 @@ Save and exit `nano` with:
 Then make it executable:
 
 ```bash
-chmod 700 /home/huatyou/.openclaw/scripts/backup-openclaw.sh
+chmod 700 /home/<user>/.openclaw/scripts/backup-openclaw.sh
 ```
 
 ---
@@ -472,7 +472,7 @@ If prompted to choose an editor, choose `nano` for simplicity.
 Add this line:
 
 ```cron
-15 4 * * * /home/huatyou/.openclaw/scripts/backup-openclaw.sh
+15 4 * * * /home/<user>/.openclaw/scripts/backup-openclaw.sh
 ```
 
 This runs the backup daily at **4:15 AM**.
@@ -496,7 +496,7 @@ crontab -l
 Before trusting automation, change into the repo root and run it once yourself:
 
 ```bash
-cd /home/huatyou/.openclaw
+cd /home/<user>/.openclaw
 ./scripts/backup-openclaw.sh
 ```
 
@@ -504,7 +504,7 @@ Then inspect:
 
 ```bash
 git status
-cat /home/huatyou/.openclaw/logs/backup-openclaw.log
+cat /home/<user>/.openclaw/logs/backup-openclaw.log
 ```
 
 ---
@@ -514,7 +514,7 @@ cat /home/huatyou/.openclaw/logs/backup-openclaw.log
 ### Periodically check:
 
 ```bash
-cd /home/huatyou/.openclaw
+cd /home/<user>/.openclaw
 git status
 git remote -v
 git log --oneline -n 5

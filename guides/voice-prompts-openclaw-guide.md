@@ -186,7 +186,7 @@ That gives you a practical balance between convenience and privacy.
 If you want to use the `big` preset, put your Deepgram API key in:
 
 ```bash
-/home/huatyou/.openclaw/.env
+/home/<user>/.openclaw/.env
 ```
 
 Add a line like this:
@@ -198,7 +198,7 @@ DEEPGRAM_API_KEY=your_actual_key_here
 ### Step-by-step
 
 ```bash
-cd /home/huatyou/.openclaw
+cd /home/<user>/.openclaw
 nano .env
 ```
 
@@ -216,7 +216,7 @@ Then save and exit:
 These preset files live here:
 
 ```bash
-/home/huatyou/.openclaw/guides/voice-stt-presets/
+/home/<user>/.openclaw/guides/voice-stt-presets/
 ```
 
 Files:
@@ -298,15 +298,15 @@ We created a helper script so you do not have to manually edit `openclaw.json` e
 Script:
 
 ```bash
-/home/huatyou/.openclaw/scripts/use-stt-preset.sh
+/home/<user>/.openclaw/scripts/use-stt-preset.sh
 ```
 
 Usage:
 
 ```bash
-/home/huatyou/.openclaw/scripts/use-stt-preset.sh small
-/home/huatyou/.openclaw/scripts/use-stt-preset.sh med
-/home/huatyou/.openclaw/scripts/use-stt-preset.sh big
+/home/<user>/.openclaw/scripts/use-stt-preset.sh small
+/home/<user>/.openclaw/scripts/use-stt-preset.sh med
+/home/<user>/.openclaw/scripts/use-stt-preset.sh big
 ```
 
 What it does:
@@ -355,7 +355,7 @@ Instead:
 That guide is here:
 
 ```bash
-/home/huatyou/.openclaw/guides/whisper-model-downloads.md
+/home/<user>/.openclaw/guides/whisper-model-downloads.md
 ```
 
 ---
@@ -369,7 +369,7 @@ For a normal person who wants voice prompts that feel usable:
 ### Everyday use
 Use:
 ```bash
-/home/huatyou/.openclaw/scripts/use-stt-preset.sh big
+/home/<user>/.openclaw/scripts/use-stt-preset.sh big
 ```
 
 Why:
@@ -380,7 +380,7 @@ Why:
 ### Sensitive/private use
 Use:
 ```bash
-/home/huatyou/.openclaw/scripts/use-stt-preset.sh med
+/home/<user>/.openclaw/scripts/use-stt-preset.sh med
 ```
 
 Why:
@@ -391,7 +391,7 @@ Why:
 ### If you want faster local but can tolerate more mistakes
 Use:
 ```bash
-/home/huatyou/.openclaw/scripts/use-stt-preset.sh small
+/home/<user>/.openclaw/scripts/use-stt-preset.sh small
 ```
 
 ---
