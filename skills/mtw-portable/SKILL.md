@@ -25,6 +25,10 @@ Do not report success before the final deliverable exists.
 - Try `yt-dlp` first for supported media URLs.
 - Prefer captions/subtitles first when the user requested captions only, or when good captions are available and sufficient.
 - If captions are unavailable or insufficient and transcription is allowed, use the host's configured transcription path.
+- In this setup, prefer Deepgram before Whisper.
+- Check `/home/huatyou/.openclaw/.env` for `DEEPGRAM_API_KEY` and use the Deepgram API directly when no local CLI wrapper is available.
+- Do not treat a missing `deepgram` binary in `PATH` as evidence that Deepgram is unavailable.
+- Do not switch to Whisper unless Stakesaurus explicitly asks for Whisper.
 - Respect explicit user constraints. If the user forbids audio transcription, do not transcribe audio as fallback.
 
 ## Default output format
