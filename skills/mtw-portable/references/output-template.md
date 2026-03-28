@@ -22,6 +22,8 @@ Use this as the default concise output and local archive format.
 3. Third fact-check point.
 ```
 
+Fact-check bullets should be based on externally checked claims where possible, not only on the source transcript.
+
 ## Local archive template
 
 ```md

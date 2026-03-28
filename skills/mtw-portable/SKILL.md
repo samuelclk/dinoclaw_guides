@@ -79,6 +79,14 @@ Do not call something fact-checked just because it matches the transcript or cap
 Verify key claims against external sources when possible.
 If external verification is limited, say so briefly and avoid overstating certainty.
 
+Use this fact-check sequence:
+1. Identify the claims that are actually checkable.
+2. Skip purely subjective opinions, personal taste, and obvious framing language unless the user asks.
+3. Use web search to verify the key factual claims.
+4. Compare at least one external source against the transcript/caption claim.
+5. Write concise fact-check bullets that label each claim as supported, plausible but unverified, mixed, or unsupported.
+6. If you could not verify a claim externally, say that briefly instead of overstating certainty.
+
 ## Backfill rule
 
 If the user asks to backfill prior media runs, look for existing local artifacts first:

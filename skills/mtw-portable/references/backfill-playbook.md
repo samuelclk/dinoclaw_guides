@@ -31,6 +31,7 @@ Common locations:
 - If only transcript artifacts exist, summarize conservatively.
 - If external fact-checking was not performed, say that briefly in the fact-check section.
 - Do not overclaim source certainty when the original URL/title is missing.
+- When external sources are available, use web search during the fact-check phase instead of treating transcript consistency as verification.
 
 ## Batch behavior
 
