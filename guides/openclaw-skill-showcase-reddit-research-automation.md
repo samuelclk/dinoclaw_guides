@@ -1,0 +1,13 @@
+title: Openclaw skill showcase! Reddit research automation!
+source_url: https://www.youtube.com/watch?v=840jcS_8lqs
+
+**Summary**
+1. The Short showcases an OpenClaw workflow for researching recent Reddit discussions, using a CRM-in-startups example to collect relevant posts quickly.
+2. It frames the tool as a read-only, no-API-access-needed way for founders or operators to monitor niches, competitors, and industry conversations, and suggests automating it with cron.
+
+**Fact-check**
+1. Supported: a real OpenClaw Reddit skill exists that is explicitly read-only and designed to search, browse, and read Reddit without API keys, which matches the Short’s core demo claims.
+2. Mostly supported with one minor caveat: the video says it can help avoid paying for Reddit API access for this research workflow; that is consistent with public-JSON-based read access, but the exact demo prompt/output flow in the video itself was not independently reproduced here.
+
+Transcript/caption basis:
+Kind: captions Language: en I asked my team, let's go over the top 10 skills that people are losing their minds over. So, the first one that I want to show off is all about searching Reddit. Now, one thing we've learned here at Twist is that often you want to know what people are talking about. We pull questions from Reddit and it's a bit tedious. It's kind of a pain in the butt. Reddit has locked down access to its service. So, if you want to kind of figure out what humans are talking about, it's a little bit tricky. The good news is that there is in fact a skill for OpenCloud that will do this for you in a pretty neat fashion. And I'm going to show you how it works, right? find all posts on Reddit discussing CRM in a startup context from the last week I said and then open all those links into a new browser for me just have them all in one place and off it goes and it thinks thinks things thinks for a little bit and eventually it comes back and pulls up all these tabs for me going over startup focused CRM conversations and as you can see here also inside of openclaw it does pull the actual information about each one so you can quickly do all the research you need to do without having to pay for API access and so forth limitations Jason pretty simple here. This is read only by definition. Last thing here for founders, I think everyone wants to keep track of a conversation. This is a fast way to do it. If you want to keep tabs on your particular niche, industry, competitor's names, your name, this is a great way to set up a cron job so it runs automatically for you and just keeps you a breast of what's going on on the internet. I think it's fantastic.
