@@ -175,9 +175,24 @@ If you need X, LinkedIn, or other authenticated sites:
 2. log in manually in that dedicated browser window
 3. keep using the same `user-data-dir` for future runs
 
+Best practice:
+- use **dedicated automation accounts / work accounts / new accounts** for this profile whenever possible
+- avoid logging the CDP automation profile into your main personal X or LinkedIn accounts unless you intentionally accept that risk
+- treat this browser as an automation environment, not your private everyday browser
+
 Do **not** log in using your normal Chrome and expect the dedicated CDP profile to inherit those sessions.
 
 The login must happen inside the dedicated browser launched with the dedicated `--user-data-dir`.
+
+### Recommended account hygiene
+
+For new OpenClaw users, the safest pattern is:
+- create or use a separate X account for automation/research
+- create or use a separate LinkedIn/work account for automation/research where policy and platform rules allow
+- keep personal browsing and automation browsing separated
+- do not mix password-manager autofill and personal session state from your main browser into the automation profile unless that is a deliberate choice
+
+This reduces the blast radius if the automation profile is misused, corrupted, rate-limited, challenged, or later discarded.
 
 ---
 
