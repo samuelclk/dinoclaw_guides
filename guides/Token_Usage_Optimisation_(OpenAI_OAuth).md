@@ -23,7 +23,10 @@ Update my openclaw.json config file with the following.
           "alias": "pro"
         },
         "openai/gpt-5.3-codex": {
-          "alias": "basic"
+          "alias": "basic",
+          "params": {
+            "reasoning": "medium"
+          }
         }
       }
     }
